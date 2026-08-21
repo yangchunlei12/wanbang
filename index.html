@@ -7498,6 +7498,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>UNIQUE INDEX idx_level_name (level_name)</code>, <code>INDEX idx_sort (sort_order)</code></div>
+
 <h4>11.2.3 product（商品表）</h4>
 <div class="table-wrap">
 <table>
@@ -7520,6 +7522,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_category (category_id)</code>, <code>INDEX idx_status (status)</code>, <code>FULLTEXT idx_name (name)</code></div>
+
 <h4>11.2.4 category（分类表）</h4>
 <div class="table-wrap">
 <table>
@@ -7534,6 +7538,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_parent (parent_id)</code>, <code>INDEX idx_sort (sort_order)</code></div>
 
 <h4>11.2.5 order（订单表）</h4>
 <div class="table-wrap">
@@ -7566,6 +7572,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_distributor (distributor_id)</code>, <code>INDEX idx_status (status)</code>, <code>INDEX idx_order_no (order_no)</code></div>
+
 <h4>11.2.6 order_item（订单明细表）</h4>
 <div class="table-wrap">
 <table>
@@ -7582,6 +7590,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_order (order_id)</code>, <code>INDEX idx_product (product_id)</code></div>
 
 <h4>11.2.7 waybill（运单表）</h4>
 <div class="table-wrap">
@@ -7602,6 +7612,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_order (order_id)</code>, <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.8 commission（佣金表）</h4>
 <div class="table-wrap">
 <table>
@@ -7620,6 +7632,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_order (order_id)</code>, <code>INDEX idx_distributor (distributor_id)</code>, <code>INDEX idx_status (status)</code></div>
 
 <h4>11.2.9 withdrawal（提现表）</h4>
 <div class="table-wrap">
@@ -7643,6 +7657,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_distributor (distributor_id)</code>, <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.10 lottery_activity（抽奖活动表）</h4>
 <div class="table-wrap">
 <table>
@@ -7659,6 +7675,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_status (status)</code>, <code>INDEX idx_date (start_date, end_date)</code></div>
 
 <h4>11.2.11 lottery_prize（奖品表）</h4>
 <div class="table-wrap">
@@ -7679,6 +7697,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_activity (activity_id)</code></div>
+
 <h4>11.2.12 lottery_record（抽奖记录表）</h4>
 <div class="table-wrap">
 <table>
@@ -7695,6 +7715,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_activity (activity_id)</code></div>
 
 <h4>11.2.13 coupon（优惠券表）</h4>
 <div class="table-wrap">
@@ -7721,6 +7743,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.14 coupon_template（优惠券模板表）</h4>
 <div class="table-wrap">
 <table>
@@ -7742,6 +7766,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.15 coupon_usage（优惠券核销记录表）</h4>
 <div class="table-wrap">
 <table>
@@ -7755,6 +7781,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_coupon (coupon_id)</code>, <code>INDEX idx_order (order_id)</code></div>
 
 <h4>11.2.16 topic（专题表）</h4>
 <div class="table-wrap">
@@ -7770,6 +7798,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.17 topic_product（专题商品关联表）</h4>
 <div class="table-wrap">
 <table>
@@ -7782,6 +7812,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_topic (topic_id)</code>, <code>INDEX idx_product (product_id)</code></div>
 
 <h4>11.2.18 procurement_order（采购订单表）</h4>
 <div class="table-wrap">
@@ -7799,6 +7831,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_distributor (distributor_id)</code>, <code>INDEX idx_status (status)</code></div>
 
 <h4>11.2.19 notification（通知表）</h4>
 <div class="table-wrap">
@@ -7818,6 +7852,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_read (is_read)</code></div>
+
 <h4>11.2.20 sms_log（短信日志表）</h4>
 <div class="table-wrap">
 <table>
@@ -7832,6 +7868,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_phone (phone)</code></div>
 
 <h4>11.2.21 payment_log（支付记录表）</h4>
 <div class="table-wrap">
@@ -7853,6 +7891,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_order (order_id)</code>, <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.22 admin（管理员表）</h4>
 <div class="table-wrap">
 <table>
@@ -7868,6 +7908,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>UNIQUE INDEX idx_username (username)</code></div>
 
 <h4>11.2.23 banner（轮播图表）</h4>
 <div class="table-wrap">
@@ -7886,6 +7928,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_position (position)</code></div>
+
 <h4>11.2.24 shipping_template（运费模板表）</h4>
 <div class="table-wrap">
 <table>
@@ -7901,6 +7945,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_name (name)</code></div>
+
 <h4>11.2.25 cart（购物车表）</h4>
 <div class="table-wrap">
 <table>
@@ -7914,6 +7960,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_product (product_id)</code></div>
 
 <h4>11.2.26 distributor_application（分销入驻申请表）</h4>
 <div class="table-wrap">
@@ -7941,6 +7989,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_status (status)</code></div>
+
 <h4>11.2.27 address（收货地址表）</h4>
 <div class="table-wrap">
 <table>
@@ -7959,6 +8009,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code></div>
+
 <h4>11.2.28 admin_log（管理员操作日志表）</h4>
 <div class="table-wrap">
 <table>
@@ -7974,6 +8026,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_admin (admin_id)</code></div>
 
 <h4>11.2.29 balance_log（余额变动记录表）</h4>
 <div class="table-wrap">
@@ -7994,6 +8048,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_type (change_type)</code></div>
+
 <h4>11.2.30 points_log（积分变动记录表）</h4>
 <div class="table-wrap">
 <table>
@@ -8013,6 +8069,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_type (change_type)</code></div>
+
 <h4>11.2.31 recharge_record（充值记录表）</h4>
 <div class="table-wrap">
 <table>
@@ -8029,6 +8087,8 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </tbody>
 </table>
 </div>
+
+<div class="callout callout-info"><strong>索引：</strong> <code>INDEX idx_user (user_id)</code>, <code>INDEX idx_status (status)</code></div>
 
 <h4>11.2.32 social_account_binding（社媒账号关联表）</h4>
 <div class="table-wrap">
@@ -8465,49 +8525,49 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3 id="ch12-1">12.1 联盟端API</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>功能</th><th>路径</th><th>方法</th></tr></thead>
+<thead><tr><th>功能</th><th>路径</th><th>方法</th><th>请求参数</th><th>响应格式</th></tr></thead>
 <tbody>
-<tr><td>看板统计</td><td>/api/v1/alliance/dashboard</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金趋势</td><td>/api/v1/alliance/dashboard/trend</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>团队成员</td><td>/api/v1/alliance/team</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>成员详情</td><td>/api/v1/alliance/team/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>邀请统计</td><td>/api/v1/alliance/invite-stats</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>邀请链接</td><td>/api/v1/alliance/invite-link</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金列表</td><td>/api/v1/alliance/commissions</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金详情</td><td>/api/v1/alliance/commissions/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金汇总</td><td>/api/v1/alliance/commissions/summary</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>导出佣金</td><td>/api/v1/alliance/commissions/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>提现余额</td><td>/api/v1/alliance/withdrawal/balance</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>发起提现</td><td>/api/v1/alliance/withdrawals</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>提现记录</td><td>/api/v1/alliance/withdrawals</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>提现详情</td><td>/api/v1/alliance/withdrawals/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>取消提现</td><td>/api/v1/alliance/withdrawals/{id}/cancel</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>抽奖活动列表</td><td>/api/v1/alliance/lottery/activities</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>抽奖活动详情</td><td>/api/v1/alliance/lottery/activities/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>参与抽奖</td><td>/api/v1/alliance/lottery/activities/{id}/draw</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>中奖记录</td><td>/api/v1/alliance/lottery/records</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>入驻状态</td><td>/api/v1/alliance/application/status</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>提交入驻申请</td><td>/api/v1/alliance/application</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>入驻申请详情</td><td>/api/v1/alliance/application/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>优惠券列表</td><td>/api/v1/alliance/coupons</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>获取账号信息</td><td>/api/v1/alliance/account</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新基本资料</td><td>/api/v1/alliance/account/profile</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>修改密码</td><td>/api/v1/alliance/account/password</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>修改手机号</td><td>/api/v1/alliance/account/phone</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>设置/修改支付密码</td><td>/api/v1/alliance/account/pay-password</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>重置支付密码</td><td>/api/v1/alliance/account/pay-password/reset</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>两步验证开关</td><td>/api/v1/alliance/account/2fa</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>登录设备列表</td><td>/api/v1/alliance/account/devices</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>退出指定设备</td><td>/api/v1/alliance/account/devices/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>退出所有设备</td><td>/api/v1/alliance/account/devices/all</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>银行卡列表</td><td>/api/v1/alliance/account/bank-cards</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>添加银行卡</td><td>/api/v1/alliance/account/bank-cards</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>解绑银行卡</td><td>/api/v1/alliance/account/bank-cards/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>电子钱包列表</td><td>/api/v1/alliance/account/wallets</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>绑定电子钱包</td><td>/api/v1/alliance/account/wallets</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新税务信息</td><td>/api/v1/alliance/account/tax-info</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>团队统计</td><td>/api/v1/alliance/team/stats</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金来源链路</td><td>/api/v1/alliance/commissions/{id}/source</td><td><span class="badge-tag badge-get">GET</span></td></tr>
+<tr><td>看板统计</td><td>/api/v1/alliance/dashboard</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>佣金趋势</td><td>/api/v1/alliance/dashboard/trend</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>团队成员</td><td>/api/v1/alliance/team</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>成员详情</td><td>/api/v1/alliance/team/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>邀请统计</td><td>/api/v1/alliance/invite-stats</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>邀请链接</td><td>/api/v1/alliance/invite-link</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>佣金列表</td><td>/api/v1/alliance/commissions</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>佣金详情</td><td>/api/v1/alliance/commissions/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>佣金汇总</td><td>/api/v1/alliance/commissions/summary</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>导出佣金</td><td>/api/v1/alliance/commissions/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>提现余额</td><td>/api/v1/alliance/withdrawal/balance</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>发起提现</td><td>/api/v1/alliance/withdrawals</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>提现记录</td><td>/api/v1/alliance/withdrawals</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>提现详情</td><td>/api/v1/alliance/withdrawals/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>取消提现</td><td>/api/v1/alliance/withdrawals/{id}/cancel</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>抽奖活动列表</td><td>/api/v1/alliance/lottery/activities</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>抽奖活动详情</td><td>/api/v1/alliance/lottery/activities/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>参与抽奖</td><td>/api/v1/alliance/lottery/activities/{id}/draw</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>中奖记录</td><td>/api/v1/alliance/lottery/records</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>入驻状态</td><td>/api/v1/alliance/application/status</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>提交入驻申请</td><td>/api/v1/alliance/application</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>入驻申请详情</td><td>/api/v1/alliance/application/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>优惠券列表</td><td>/api/v1/alliance/coupons</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>获取账号信息</td><td>/api/v1/alliance/account</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新基本资料</td><td>/api/v1/alliance/account/profile</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>修改密码</td><td>/api/v1/alliance/account/password</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>修改手机号</td><td>/api/v1/alliance/account/phone</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>设置/修改支付密码</td><td>/api/v1/alliance/account/pay-password</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>重置支付密码</td><td>/api/v1/alliance/account/pay-password/reset</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>两步验证开关</td><td>/api/v1/alliance/account/2fa</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>登录设备列表</td><td>/api/v1/alliance/account/devices</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>退出指定设备</td><td>/api/v1/alliance/account/devices/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>退出所有设备</td><td>/api/v1/alliance/account/devices/all</td><td><span class="badge-tag badge-delete">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>银行卡列表</td><td>/api/v1/alliance/account/bank-cards</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>添加银行卡</td><td>/api/v1/alliance/account/bank-cards</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>解绑银行卡</td><td>/api/v1/alliance/account/bank-cards/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>电子钱包列表</td><td>/api/v1/alliance/account/wallets</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>绑定电子钱包</td><td>/api/v1/alliance/account/wallets</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新税务信息</td><td>/api/v1/alliance/account/tax-info</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>团队统计</td><td>/api/v1/alliance/team/stats</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>佣金来源链路</td><td>/api/v1/alliance/commissions/{id}/source</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
 </tbody>
 </table>
 </div>
@@ -8515,64 +8575,64 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3 id="ch12-2">12.2 会员端API</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>功能</th><th>路径</th><th>方法</th></tr></thead>
+<thead><tr><th>功能</th><th>路径</th><th>方法</th><th>请求参数</th><th>响应格式</th></tr></thead>
 <tbody>
-<tr><td>轮播图</td><td>/api/v1/member/banners</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>分类树</td><td>/api/v1/member/categories</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>商品列表</td><td>/api/v1/member/products</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>商品详情</td><td>/api/v1/member/products/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建订单</td><td>/api/v1/member/orders</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>支付订单</td><td>/api/v1/member/orders/{orderNo}/pay</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>确认签收</td><td>/api/v1/member/orders/{orderNo}/confirm-receipt</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>取消订单</td><td>/api/v1/member/orders/{orderNo}/cancel</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>申请退款</td><td>/api/v1/member/orders/{orderNo}/refund</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>退款详情</td><td>/api/v1/member/orders/{orderNo}/refund</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>取消退款申请</td><td>/api/v1/member/orders/{orderNo}/refund/cancel</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>订单列表</td><td>/api/v1/member/orders</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>订单详情</td><td>/api/v1/member/orders/{orderNo}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>运单列表</td><td>/api/v1/member/waybills</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>运单详情</td><td>/api/v1/member/waybills/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>支付运费</td><td>/api/v1/member/waybills/{id}/pay</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>物流轨迹</td><td>/api/v1/member/waybills/{id}/tracking</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>购物车列表</td><td>/api/v1/member/cart</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>加入购物车</td><td>/api/v1/member/cart</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新数量</td><td>/api/v1/member/cart/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除购物车项</td><td>/api/v1/member/cart/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>批量删除</td><td>/api/v1/member/cart/batch</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>选中/取消</td><td>/api/v1/member/cart/{id}/check</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>清空购物车</td><td>/api/v1/member/cart/clear</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>专题列表</td><td>/api/v1/member/topics</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>专题详情</td><td>/api/v1/member/topics/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>获取汇率</td><td>/api/v1/member/recharge/exchange-rates</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>发起充值</td><td>/api/v1/member/recharge</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>充值结果</td><td>/api/v1/member/recharge/{id}/result</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>优惠券列表</td><td>/api/v1/member/coupons</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>优惠券详情</td><td>/api/v1/member/coupons/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>可用优惠券</td><td>/api/v1/member/coupons/available</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>地址列表</td><td>/api/v1/member/addresses</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>新增地址</td><td>/api/v1/member/addresses</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新地址</td><td>/api/v1/member/addresses/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除地址</td><td>/api/v1/member/addresses/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>设为默认地址</td><td>/api/v1/member/addresses/{id}/default</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>个人资料</td><td>/api/v1/member/profile</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新资料</td><td>/api/v1/member/profile</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>更新偏好设置</td><td>/api/v1/member/profile/preferences</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>更新税务信息</td><td>/api/v1/member/profile/tax-info</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>开关两步验证</td><td>/api/v1/member/profile/2fa</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>修改密码</td><td>/api/v1/member/profile/password</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>设置支付密码</td><td>/api/v1/member/profile/pay-password</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>余额明细</td><td>/api/v1/member/balance/history</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>积分明细</td><td>/api/v1/member/points/history</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>充值记录</td><td>/api/v1/member/recharge/records</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>分销商介绍页</td><td>/api/v1/member/distributor/intro</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>提交分销申请</td><td>/api/v1/member/distributor/apply</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>获取申请状态</td><td>/api/v1/member/distributor/application</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>获取申请详情</td><td>/api/v1/member/distributor/application/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>取消申请</td><td>/api/v1/member/distributor/application/{id}/cancel</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>分销分享素材</td><td>/api/v1/member/distributor/share-kit</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>社媒分享记录</td><td>/api/v1/member/social/share</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>社媒绑定列表</td><td>/api/v1/member/social/bindings</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>解绑社媒账号</td><td>/api/v1/member/social/bindings/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
+<tr><td>轮播图</td><td>/api/v1/member/banners</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>分类树</td><td>/api/v1/member/categories</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>商品列表</td><td>/api/v1/member/products</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>商品详情</td><td>/api/v1/member/products/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建订单</td><td>/api/v1/member/orders</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>支付订单</td><td>/api/v1/member/orders/{orderNo}/pay</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>确认签收</td><td>/api/v1/member/orders/{orderNo}/confirm-receipt</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>取消订单</td><td>/api/v1/member/orders/{orderNo}/cancel</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>申请退款</td><td>/api/v1/member/orders/{orderNo}/refund</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>退款详情</td><td>/api/v1/member/orders/{orderNo}/refund</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>取消退款申请</td><td>/api/v1/member/orders/{orderNo}/refund/cancel</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>订单列表</td><td>/api/v1/member/orders</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>订单详情</td><td>/api/v1/member/orders/{orderNo}</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>运单列表</td><td>/api/v1/member/waybills</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>运单详情</td><td>/api/v1/member/waybills/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>支付运费</td><td>/api/v1/member/waybills/{id}/pay</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>物流轨迹</td><td>/api/v1/member/waybills/{id}/tracking</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>购物车列表</td><td>/api/v1/member/cart</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>加入购物车</td><td>/api/v1/member/cart</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新数量</td><td>/api/v1/member/cart/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除购物车项</td><td>/api/v1/member/cart/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>批量删除</td><td>/api/v1/member/cart/batch</td><td><span class="badge-tag badge-delete">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>选中/取消</td><td>/api/v1/member/cart/{id}/check</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>清空购物车</td><td>/api/v1/member/cart/clear</td><td><span class="badge-tag badge-delete">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>专题列表</td><td>/api/v1/member/topics</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>专题详情</td><td>/api/v1/member/topics/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>获取汇率</td><td>/api/v1/member/recharge/exchange-rates</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>发起充值</td><td>/api/v1/member/recharge</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>充值结果</td><td>/api/v1/member/recharge/{id}/result</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>优惠券列表</td><td>/api/v1/member/coupons</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>优惠券详情</td><td>/api/v1/member/coupons/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>可用优惠券</td><td>/api/v1/member/coupons/available</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>地址列表</td><td>/api/v1/member/addresses</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>新增地址</td><td>/api/v1/member/addresses</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新地址</td><td>/api/v1/member/addresses/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除地址</td><td>/api/v1/member/addresses/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>设为默认地址</td><td>/api/v1/member/addresses/{id}/default</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>个人资料</td><td>/api/v1/member/profile</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新资料</td><td>/api/v1/member/profile</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>更新偏好设置</td><td>/api/v1/member/profile/preferences</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>更新税务信息</td><td>/api/v1/member/profile/tax-info</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>开关两步验证</td><td>/api/v1/member/profile/2fa</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>修改密码</td><td>/api/v1/member/profile/password</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>设置支付密码</td><td>/api/v1/member/profile/pay-password</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>余额明细</td><td>/api/v1/member/balance/history</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>积分明细</td><td>/api/v1/member/points/history</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>充值记录</td><td>/api/v1/member/recharge/records</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>分销商介绍页</td><td>/api/v1/member/distributor/intro</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>提交分销申请</td><td>/api/v1/member/distributor/apply</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>获取申请状态</td><td>/api/v1/member/distributor/application</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>获取申请详情</td><td>/api/v1/member/distributor/application/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>取消申请</td><td>/api/v1/member/distributor/application/{id}/cancel</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>分销分享素材</td><td>/api/v1/member/distributor/share-kit</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>社媒分享记录</td><td>/api/v1/member/social/share</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>社媒绑定列表</td><td>/api/v1/member/social/bindings</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>解绑社媒账号</td><td>/api/v1/member/social/bindings/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
 </tbody>
 </table>
 </div>
@@ -8580,197 +8640,197 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3 id="ch12-3">12.3 后台管理API</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>功能</th><th>路径</th><th>方法</th></tr></thead>
+<thead><tr><th>功能</th><th>路径</th><th>方法</th><th>请求参数</th><th>响应格式</th></tr></thead>
 <tbody>
-<tr><td>Dashboard统计</td><td>/api/v1/admin/dashboard/stats</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>销售趋势</td><td>/api/v1/admin/dashboard/sales-trend</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>分类销售占比</td><td>/api/v1/admin/dashboard/category-sales</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金趋势</td><td>/api/v1/admin/dashboard/commission-trend</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>商品列表</td><td>/api/v1/admin/products</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>商品详情</td><td>/api/v1/admin/products/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建商品</td><td>/api/v1/admin/products</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新商品</td><td>/api/v1/admin/products/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除商品</td><td>/api/v1/admin/products/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>上架/下架</td><td>/api/v1/admin/products/{id}/status</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>批量操作</td><td>/api/v1/admin/products/batch</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>分类树</td><td>/api/v1/admin/categories</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建分类</td><td>/api/v1/admin/categories</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新分类</td><td>/api/v1/admin/categories/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除分类</td><td>/api/v1/admin/categories/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>奖品列表</td><td>/api/v1/admin/prizes</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建奖品</td><td>/api/v1/admin/prizes</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新奖品</td><td>/api/v1/admin/prizes/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除奖品</td><td>/api/v1/admin/prizes/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>专题列表</td><td>/api/v1/admin/topics</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建专题</td><td>/api/v1/admin/topics</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新专题</td><td>/api/v1/admin/topics/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除专题</td><td>/api/v1/admin/topics/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>配置专题商品</td><td>/api/v1/admin/topics/{id}/products</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>专题详情</td><td>/api/v1/admin/topics/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>等级列表</td><td>/api/v1/admin/member-levels</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建等级</td><td>/api/v1/admin/member-levels</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新等级</td><td>/api/v1/admin/member-levels/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除等级</td><td>/api/v1/admin/member-levels/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>抽奖活动列表</td><td>/api/v1/admin/lottery/activities</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建活动</td><td>/api/v1/admin/lottery/activities</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新活动</td><td>/api/v1/admin/lottery/activities/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除活动</td><td>/api/v1/admin/lottery/activities/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>活动详情</td><td>/api/v1/admin/lottery/activities/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>中奖记录</td><td>/api/v1/admin/lottery/activities/{id}/records</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>分销商列表</td><td>/api/v1/admin/distributors</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>分销商详情</td><td>/api/v1/admin/distributors/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>开通/关闭分销</td><td>/api/v1/admin/distributors/{id}/activation</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>导出分销商</td><td>/api/v1/admin/distributors/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>入驻申请列表</td><td>/api/v1/admin/distributor-applications</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>审核入驻</td><td>/api/v1/admin/distributor-applications/{id}/review</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>佣金列表</td><td>/api/v1/admin/commissions</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>佣金详情</td><td>/api/v1/admin/commissions/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>调整佣金</td><td>/api/v1/admin/commissions/{id}/adjust</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>佣金汇总</td><td>/api/v1/admin/commissions/summary</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>导出佣金</td><td>/api/v1/admin/commissions/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>优惠券模板列表</td><td>/api/v1/admin/coupon-templates</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建模板</td><td>/api/v1/admin/coupon-templates</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新模板</td><td>/api/v1/admin/coupon-templates/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除模板</td><td>/api/v1/admin/coupon-templates/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>优惠券列表</td><td>/api/v1/admin/coupons</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>发放优惠券</td><td>/api/v1/admin/coupons/issue</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>批量发放</td><td>/api/v1/admin/coupons/batch-issue</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>作废优惠券</td><td>/api/v1/admin/coupons/{id}/void</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>核销记录</td><td>/api/v1/admin/coupons/usage-records</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>采购订单列表</td><td>/api/v1/admin/procurement-orders</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建采购订单</td><td>/api/v1/admin/procurement-orders</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新采购订单</td><td>/api/v1/admin/procurement-orders/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除采购订单</td><td>/api/v1/admin/procurement-orders/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>确认采购</td><td>/api/v1/admin/procurement-orders/{id}/confirm</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>采购付款</td><td>/api/v1/admin/procurement-orders/{id}/pay</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>采购发货</td><td>/api/v1/admin/procurement-orders/{id}/ship</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>通知列表</td><td>/api/v1/admin/notifications</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建通知</td><td>/api/v1/admin/notifications</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新通知</td><td>/api/v1/admin/notifications/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除通知</td><td>/api/v1/admin/notifications/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>发送通知</td><td>/api/v1/admin/notifications/{id}/send</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>轮播图列表</td><td>/api/v1/admin/banners</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建轮播图</td><td>/api/v1/admin/banners</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新轮播图</td><td>/api/v1/admin/banners/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除轮播图</td><td>/api/v1/admin/banners/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>批量排序</td><td>/api/v1/admin/banners/sort</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>运费模板列表</td><td>/api/v1/admin/shipping-templates</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建模板</td><td>/api/v1/admin/shipping-templates</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新模板</td><td>/api/v1/admin/shipping-templates/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除模板</td><td>/api/v1/admin/shipping-templates/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>运单列表</td><td>/api/v1/admin/waybills</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>运单详情</td><td>/api/v1/admin/waybills/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>修改运单</td><td>/api/v1/admin/waybills/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>补发运单</td><td>/api/v1/admin/waybills/{id}/reissue</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>管理员列表</td><td>/api/v1/admin/admins</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建管理员</td><td>/api/v1/admin/admins</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新管理员</td><td>/api/v1/admin/admins/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除管理员</td><td>/api/v1/admin/admins/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>启用/禁用</td><td>/api/v1/admin/admins/{id}/status</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>重置密码</td><td>/api/v1/admin/admins/{id}/reset-password</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>提现列表</td><td>/api/v1/admin/withdrawals</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>提现详情</td><td>/api/v1/admin/withdrawals/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>审核通过</td><td>/api/v1/admin/withdrawals/{id}/approve</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>审核驳回</td><td>/api/v1/admin/withdrawals/{id}/reject</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>批量审核</td><td>/api/v1/admin/withdrawals/batch-approve</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>获取汇率</td><td>/api/v1/admin/exchange-rates</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新汇率</td><td>/api/v1/admin/exchange-rates</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>支付记录列表</td><td>/api/v1/admin/payment-logs</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>支付记录详情</td><td>/api/v1/admin/payment-logs/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>订单列表</td><td>/api/v1/admin/orders</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>订单详情</td><td>/api/v1/admin/orders/{orderNo}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>发货(创建运单)</td><td>/api/v1/admin/orders/{orderNo}/ship</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>修改物流信息</td><td>/api/v1/admin/orders/{orderNo}/logistics</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>强制取消订单</td><td>/api/v1/admin/orders/{orderNo}/cancel</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>导出订单</td><td>/api/v1/admin/orders/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>订单统计</td><td>/api/v1/admin/orders/stats</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>退款列表</td><td>/api/v1/admin/refunds</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>退款详情</td><td>/api/v1/admin/refunds/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>退款审核通过</td><td>/api/v1/admin/refunds/{id}/approve</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>退款驳回</td><td>/api/v1/admin/refunds/{id}/reject</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>导出退款记录</td><td>/api/v1/admin/refunds/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>会员列表</td><td>/api/v1/admin/members</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>会员详情</td><td>/api/v1/admin/members/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>冻结/解冻会员</td><td>/api/v1/admin/members/{id}/status</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>调整余额</td><td>/api/v1/admin/members/{id}/balance</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>调整积分</td><td>/api/v1/admin/members/{id}/points</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>导出会员</td><td>/api/v1/admin/members/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>外部系统列表</td><td>/api/v1/admin/external-systems</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>新建外部系统</td><td>/api/v1/admin/external-systems</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新外部系统</td><td>/api/v1/admin/external-systems/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除外部系统</td><td>/api/v1/admin/external-systems/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>启用/禁用外部系统</td><td>/api/v1/admin/external-systems/{id}/toggle</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>获取字段映射</td><td>/api/v1/admin/external-systems/{id}/mappings</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>保存字段映射</td><td>/api/v1/admin/external-systems/{id}/mappings</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>连通性测试</td><td>/api/v1/admin/external-systems/{id}/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>调用日志列表</td><td>/api/v1/admin/external-systems/{id}/logs</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>调用日志详情</td><td>/api/v1/admin/external-systems/{id}/logs/{logId}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>重放请求</td><td>/api/v1/admin/external-systems/{id}/logs/{logId}/replay</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>导出映射模板</td><td>/api/v1/admin/external-systems/{id}/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>导入映射模板</td><td>/api/v1/admin/external-systems/import</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>获取版本列表</td><td>/api/v1/admin/external-systems/{id}/versions</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>回滚版本</td><td>/api/v1/admin/external-systems/{id}/versions/{ver}/rollback</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>获取预置模板</td><td>/api/v1/admin/external-systems/templates</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>端点映射总览</td><td>/api/v1/admin/external-systems/endpoints-overview</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>端点列表(按系统)</td><td>/api/v1/admin/external-systems/{id}/endpoints</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>新建端点</td><td>/api/v1/admin/external-systems/{id}/endpoints</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>更新端点</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除端点</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>端点字段映射详情</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/mappings</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>保存端点字段映射</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/mappings</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>端点映射预览</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/preview</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>端点连通性测试</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>端点批量操作</td><td>/api/v1/admin/external-systems/endpoints/batch</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>预置端点模板</td><td>/api/v1/admin/external-systems/{id}/endpoint-templates</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>导入端点模板</td><td>/api/v1/admin/external-systems/{id}/endpoint-templates/import</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>外部系统Webhook回调</td><td>/api/v1/webhook/external/{systemCode}/{endpointCode}</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>映射总览列表</td><td>/api/v1/admin/api-mappings</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>映射统计概览</td><td>/api/v1/admin/api-mappings/stats</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>映射详情</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>新建映射</td><td>/api/v1/admin/api-mappings</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>保存映射配置</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>删除映射</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>映射实时预览</td><td>/api/v1/admin/api-mappings/{id}/preview</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>单字段测试</td><td>/api/v1/admin/api-mappings/{id}/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>端点级测试</td><td>/api/v1/admin/api-mappings/endpoints/{epId}/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>系统级测试</td><td>/api/v1/admin/api-mappings/systems/{sysId}/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>全量测试</td><td>/api/v1/admin/api-mappings/batch-test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>测试任务状态</td><td>/api/v1/admin/api-mappings/batch-test/{taskId}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>健康度概览</td><td>/api/v1/admin/api-mappings/health</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>映射批量操作</td><td>/api/v1/admin/api-mappings/batch</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>保存测试用例</td><td>/api/v1/admin/api-mappings/{id}/test-cases</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>测试用例列表</td><td>/api/v1/admin/api-mappings/{id}/test-cases</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>定时巡检配置</td><td>/api/v1/admin/api-mappings/health/schedule</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>导出测试报告</td><td>/api/v1/admin/api-mappings/health/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>账号列表(统一)</td><td>/api/v1/admin/accounts</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>创建管理员</td><td>/api/v1/admin/accounts/admin</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>封禁/解封账号</td><td>/api/v1/admin/accounts/{id}/ban</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>重置账号密码</td><td>/api/v1/admin/accounts/{id}/reset-password</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>角色列表</td><td>/api/v1/admin/roles</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>角色权限详情</td><td>/api/v1/admin/roles/{id}</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新角色权限</td><td>/api/v1/admin/roles/{id}/permissions</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>获取i18n配置</td><td>/api/v1/admin/settings/i18n</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新i18n配置</td><td>/api/v1/admin/settings/i18n</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>SMS网关配置</td><td>/api/v1/admin/settings/sms-gateway</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>SMS网关测试</td><td>/api/v1/admin/settings/sms-gateway/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>邮件服务配置</td><td>/api/v1/admin/settings/email-gateway</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>邮件服务测试</td><td>/api/v1/admin/settings/email-gateway/test</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>支付渠道配置</td><td>/api/v1/admin/settings/payment-channels</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>获取安全策略</td><td>/api/v1/admin/settings/security</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新安全策略</td><td>/api/v1/admin/settings/security</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>审计日志列表</td><td>/api/v1/admin/audit-logs</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>导出审计日志</td><td>/api/v1/admin/audit-logs/export</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>黑名单列表</td><td>/api/v1/admin/blacklist</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>添加黑名单</td><td>/api/v1/admin/blacklist</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>批量添加黑名单</td><td>/api/v1/admin/blacklist/batch</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>解封黑名单</td><td>/api/v1/admin/blacklist/{id}/unblock</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>批量解封</td><td>/api/v1/admin/blacklist/batch-unblock</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>批量延长封禁</td><td>/api/v1/admin/blacklist/batch-extend</td><td><span class="badge-tag badge-post">POST</span></td></tr>
-<tr><td>删除黑名单记录</td><td>/api/v1/admin/blacklist/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td></tr>
-<tr><td>获取自动封禁规则</td><td>/api/v1/admin/blacklist/rules</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>更新自动封禁规则</td><td>/api/v1/admin/blacklist/rules</td><td><span class="badge-tag badge-put">PUT</span></td></tr>
-<tr><td>风险设备列表</td><td>/api/v1/admin/blacklist/risk-devices</td><td><span class="badge-tag badge-get">GET</span></td></tr>
-<tr><td>审核申诉</td><td>/api/v1/admin/blacklist/appeals/{id}/review</td><td><span class="badge-tag badge-post">POST</span></td></tr>
+<tr><td>Dashboard统计</td><td>/api/v1/admin/dashboard/stats</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>销售趋势</td><td>/api/v1/admin/dashboard/sales-trend</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>分类销售占比</td><td>/api/v1/admin/dashboard/category-sales</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>佣金趋势</td><td>/api/v1/admin/dashboard/commission-trend</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>商品列表</td><td>/api/v1/admin/products</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>商品详情</td><td>/api/v1/admin/products/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建商品</td><td>/api/v1/admin/products</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新商品</td><td>/api/v1/admin/products/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除商品</td><td>/api/v1/admin/products/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>上架/下架</td><td>/api/v1/admin/products/{id}/status</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>批量操作</td><td>/api/v1/admin/products/batch</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>分类树</td><td>/api/v1/admin/categories</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建分类</td><td>/api/v1/admin/categories</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新分类</td><td>/api/v1/admin/categories/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除分类</td><td>/api/v1/admin/categories/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>奖品列表</td><td>/api/v1/admin/prizes</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建奖品</td><td>/api/v1/admin/prizes</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新奖品</td><td>/api/v1/admin/prizes/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除奖品</td><td>/api/v1/admin/prizes/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>专题列表</td><td>/api/v1/admin/topics</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建专题</td><td>/api/v1/admin/topics</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新专题</td><td>/api/v1/admin/topics/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除专题</td><td>/api/v1/admin/topics/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>配置专题商品</td><td>/api/v1/admin/topics/{id}/products</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>专题详情</td><td>/api/v1/admin/topics/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>等级列表</td><td>/api/v1/admin/member-levels</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建等级</td><td>/api/v1/admin/member-levels</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新等级</td><td>/api/v1/admin/member-levels/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除等级</td><td>/api/v1/admin/member-levels/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>抽奖活动列表</td><td>/api/v1/admin/lottery/activities</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>创建活动</td><td>/api/v1/admin/lottery/activities</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新活动</td><td>/api/v1/admin/lottery/activities/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除活动</td><td>/api/v1/admin/lottery/activities/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>活动详情</td><td>/api/v1/admin/lottery/activities/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>中奖记录</td><td>/api/v1/admin/lottery/activities/{id}/records</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>分销商列表</td><td>/api/v1/admin/distributors</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>分销商详情</td><td>/api/v1/admin/distributors/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>开通/关闭分销</td><td>/api/v1/admin/distributors/{id}/activation</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>导出分销商</td><td>/api/v1/admin/distributors/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>入驻申请列表</td><td>/api/v1/admin/distributor-applications</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>审核入驻</td><td>/api/v1/admin/distributor-applications/{id}/review</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>佣金列表</td><td>/api/v1/admin/commissions</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>佣金详情</td><td>/api/v1/admin/commissions/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>调整佣金</td><td>/api/v1/admin/commissions/{id}/adjust</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>佣金汇总</td><td>/api/v1/admin/commissions/summary</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>导出佣金</td><td>/api/v1/admin/commissions/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>优惠券模板列表</td><td>/api/v1/admin/coupon-templates</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建模板</td><td>/api/v1/admin/coupon-templates</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新模板</td><td>/api/v1/admin/coupon-templates/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除模板</td><td>/api/v1/admin/coupon-templates/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>优惠券列表</td><td>/api/v1/admin/coupons</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>发放优惠券</td><td>/api/v1/admin/coupons/issue</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>批量发放</td><td>/api/v1/admin/coupons/batch-issue</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>作废优惠券</td><td>/api/v1/admin/coupons/{id}/void</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>核销记录</td><td>/api/v1/admin/coupons/usage-records</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>采购订单列表</td><td>/api/v1/admin/procurement-orders</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>创建采购订单</td><td>/api/v1/admin/procurement-orders</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新采购订单</td><td>/api/v1/admin/procurement-orders/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除采购订单</td><td>/api/v1/admin/procurement-orders/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>确认采购</td><td>/api/v1/admin/procurement-orders/{id}/confirm</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>采购付款</td><td>/api/v1/admin/procurement-orders/{id}/pay</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>采购发货</td><td>/api/v1/admin/procurement-orders/{id}/ship</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>通知列表</td><td>/api/v1/admin/notifications</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>创建通知</td><td>/api/v1/admin/notifications</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新通知</td><td>/api/v1/admin/notifications/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除通知</td><td>/api/v1/admin/notifications/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>发送通知</td><td>/api/v1/admin/notifications/{id}/send</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>轮播图列表</td><td>/api/v1/admin/banners</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>创建轮播图</td><td>/api/v1/admin/banners</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新轮播图</td><td>/api/v1/admin/banners/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除轮播图</td><td>/api/v1/admin/banners/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>批量排序</td><td>/api/v1/admin/banners/sort</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>运费模板列表</td><td>/api/v1/admin/shipping-templates</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建模板</td><td>/api/v1/admin/shipping-templates</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新模板</td><td>/api/v1/admin/shipping-templates/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除模板</td><td>/api/v1/admin/shipping-templates/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>运单列表</td><td>/api/v1/admin/waybills</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>运单详情</td><td>/api/v1/admin/waybills/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>修改运单</td><td>/api/v1/admin/waybills/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>补发运单</td><td>/api/v1/admin/waybills/{id}/reissue</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>管理员列表</td><td>/api/v1/admin/admins</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建管理员</td><td>/api/v1/admin/admins</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新管理员</td><td>/api/v1/admin/admins/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除管理员</td><td>/api/v1/admin/admins/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>启用/禁用</td><td>/api/v1/admin/admins/{id}/status</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>重置密码</td><td>/api/v1/admin/admins/{id}/reset-password</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>提现列表</td><td>/api/v1/admin/withdrawals</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>提现详情</td><td>/api/v1/admin/withdrawals/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>审核通过</td><td>/api/v1/admin/withdrawals/{id}/approve</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>审核驳回</td><td>/api/v1/admin/withdrawals/{id}/reject</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>批量审核</td><td>/api/v1/admin/withdrawals/batch-approve</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>获取汇率</td><td>/api/v1/admin/exchange-rates</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新汇率</td><td>/api/v1/admin/exchange-rates</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>支付记录列表</td><td>/api/v1/admin/payment-logs</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>支付记录详情</td><td>/api/v1/admin/payment-logs/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>订单列表</td><td>/api/v1/admin/orders</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>订单详情</td><td>/api/v1/admin/orders/{orderNo}</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>发货(创建运单)</td><td>/api/v1/admin/orders/{orderNo}/ship</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>修改物流信息</td><td>/api/v1/admin/orders/{orderNo}/logistics</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>强制取消订单</td><td>/api/v1/admin/orders/{orderNo}/cancel</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>导出订单</td><td>/api/v1/admin/orders/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>订单统计</td><td>/api/v1/admin/orders/stats</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>退款列表</td><td>/api/v1/admin/refunds</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>退款详情</td><td>/api/v1/admin/refunds/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>退款审核通过</td><td>/api/v1/admin/refunds/{id}/approve</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>退款驳回</td><td>/api/v1/admin/refunds/{id}/reject</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>导出退款记录</td><td>/api/v1/admin/refunds/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>会员列表</td><td>/api/v1/admin/members</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>会员详情</td><td>/api/v1/admin/members/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>冻结/解冻会员</td><td>/api/v1/admin/members/{id}/status</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>调整余额</td><td>/api/v1/admin/members/{id}/balance</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>调整积分</td><td>/api/v1/admin/members/{id}/points</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>导出会员</td><td>/api/v1/admin/members/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>外部系统列表</td><td>/api/v1/admin/external-systems</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>新建外部系统</td><td>/api/v1/admin/external-systems</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新外部系统</td><td>/api/v1/admin/external-systems/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除外部系统</td><td>/api/v1/admin/external-systems/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>启用/禁用外部系统</td><td>/api/v1/admin/external-systems/{id}/toggle</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>获取字段映射</td><td>/api/v1/admin/external-systems/{id}/mappings</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>保存字段映射</td><td>/api/v1/admin/external-systems/{id}/mappings</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>连通性测试</td><td>/api/v1/admin/external-systems/{id}/test</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>调用日志列表</td><td>/api/v1/admin/external-systems/{id}/logs</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>调用日志详情</td><td>/api/v1/admin/external-systems/{id}/logs/{logId}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>重放请求</td><td>/api/v1/admin/external-systems/{id}/logs/{logId}/replay</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>导出映射模板</td><td>/api/v1/admin/external-systems/{id}/export</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>导入映射模板</td><td>/api/v1/admin/external-systems/import</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>获取版本列表</td><td>/api/v1/admin/external-systems/{id}/versions</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>回滚版本</td><td>/api/v1/admin/external-systems/{id}/versions/{ver}/rollback</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>获取预置模板</td><td>/api/v1/admin/external-systems/templates</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>端点映射总览</td><td>/api/v1/admin/external-systems/endpoints-overview</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>端点列表(按系统)</td><td>/api/v1/admin/external-systems/{id}/endpoints</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>新建端点</td><td>/api/v1/admin/external-systems/{id}/endpoints</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>更新端点</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除端点</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>端点字段映射详情</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/mappings</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>保存端点字段映射</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/mappings</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>端点映射预览</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/preview</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>端点连通性测试</td><td>/api/v1/admin/external-systems/{id}/endpoints/{epId}/test</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>端点批量操作</td><td>/api/v1/admin/external-systems/endpoints/batch</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>预置端点模板</td><td>/api/v1/admin/external-systems/{id}/endpoint-templates</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>导入端点模板</td><td>/api/v1/admin/external-systems/{id}/endpoint-templates/import</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>外部系统Webhook回调</td><td>/api/v1/webhook/external/{systemCode}/{endpointCode}</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>映射总览列表</td><td>/api/v1/admin/api-mappings</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>映射统计概览</td><td>/api/v1/admin/api-mappings/stats</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>映射详情</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>新建映射</td><td>/api/v1/admin/api-mappings</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>保存映射配置</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>删除映射</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>映射实时预览</td><td>/api/v1/admin/api-mappings/{id}/preview</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>单字段测试</td><td>/api/v1/admin/api-mappings/{id}/test</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>端点级测试</td><td>/api/v1/admin/api-mappings/endpoints/{epId}/test</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>系统级测试</td><td>/api/v1/admin/api-mappings/systems/{sysId}/test</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>全量测试</td><td>/api/v1/admin/api-mappings/batch-test</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>测试任务状态</td><td>/api/v1/admin/api-mappings/batch-test/{taskId}</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>健康度概览</td><td>/api/v1/admin/api-mappings/health</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>映射批量操作</td><td>/api/v1/admin/api-mappings/batch</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>保存测试用例</td><td>/api/v1/admin/api-mappings/{id}/test-cases</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>测试用例列表</td><td>/api/v1/admin/api-mappings/{id}/test-cases</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>定时巡检配置</td><td>/api/v1/admin/api-mappings/health/schedule</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>导出测试报告</td><td>/api/v1/admin/api-mappings/health/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>账号列表(统一)</td><td>/api/v1/admin/accounts</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>创建管理员</td><td>/api/v1/admin/accounts/admin</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>封禁/解封账号</td><td>/api/v1/admin/accounts/{id}/ban</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>重置账号密码</td><td>/api/v1/admin/accounts/{id}/reset-password</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>角色列表</td><td>/api/v1/admin/roles</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>角色权限详情</td><td>/api/v1/admin/roles/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新角色权限</td><td>/api/v1/admin/roles/{id}/permissions</td><td><span class="badge-tag badge-">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>获取i18n配置</td><td>/api/v1/admin/settings/i18n</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新i18n配置</td><td>/api/v1/admin/settings/i18n</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>SMS网关配置</td><td>/api/v1/admin/settings/sms-gateway</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>SMS网关测试</td><td>/api/v1/admin/settings/sms-gateway/test</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>邮件服务配置</td><td>/api/v1/admin/settings/email-gateway</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>邮件服务测试</td><td>/api/v1/admin/settings/email-gateway/test</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>支付渠道配置</td><td>/api/v1/admin/settings/payment-channels</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>获取安全策略</td><td>/api/v1/admin/settings/security</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新安全策略</td><td>/api/v1/admin/settings/security</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>审计日志列表</td><td>/api/v1/admin/audit-logs</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>导出审计日志</td><td>/api/v1/admin/audit-logs/export</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>黑名单列表</td><td>/api/v1/admin/blacklist</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>添加黑名单</td><td>/api/v1/admin/blacklist</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>批量添加黑名单</td><td>/api/v1/admin/blacklist/batch</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>解封黑名单</td><td>/api/v1/admin/blacklist/{id}/unblock</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>批量解封</td><td>/api/v1/admin/blacklist/batch-unblock</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>批量延长封禁</td><td>/api/v1/admin/blacklist/batch-extend</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>删除黑名单记录</td><td>/api/v1/admin/blacklist/{id}</td><td><span class="badge-tag badge-">DELETE</span></td><td>id(path)</td><td>{code,message}</td></tr>
+<tr><td>获取自动封禁规则</td><td>/api/v1/admin/blacklist/rules</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
+<tr><td>更新自动封禁规则</td><td>/api/v1/admin/blacklist/rules</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
+<tr><td>风险设备列表</td><td>/api/v1/admin/blacklist/risk-devices</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>审核申诉</td><td>/api/v1/admin/blacklist/appeals/{id}/review</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
 </tbody>
 </table>
 </div>
@@ -11662,6 +11722,620 @@ Accept-Language: ru-RU  // 或 zh-CN, 决定错误信息语言
 { "code": 40053, "message": "不支持的文件格式,仅支持jpg/png/webp" }
 // Response 400 (超大)
 { "code": 40052, "message": "文件大小超过限制,最大5MB" }
+</pre>
+</div>
+
+<h4>POST /api/v1/auth/login (登录)</h4>
+<div class="card">
+<pre class="code-block">
+// Headers: Content-Type: application/json
+// Request Body
+{
+  "account": "user@example.com",  // 邮箱或手机号
+  "password": "Abc123456!",       // 8-20位,含大小写+数字
+  "captcha_id": "abc123",          // 图形验证码ID(可选)
+  "captcha_code": "8s2k",          // 图形验证码(可选)
+  "device_fingerprint": "fp_abc123" // 设备指纹
+}
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+    "expires_in": 7200,
+    "user": {
+      "id": 100001,
+      "email": "user@example.com",
+      "phone": "+8613800001111",
+      "nickname": "用户100001",
+      "avatar": "https://cdn.xxx/avatar/default.png",
+      "role": "member",
+      "member_level": 2
+    },
+    "requires_2fa": false
+  }
+}
+
+// Response 200 (需要2FA)
+{ "code": 0, "data": { "requires_2fa": true, "temp_token": "temp_xxx" } }
+// Response 400 (账号或密码错误)
+{ "code": 40001, "message": "账号或密码错误" }
+// Response 400 (验证码错误)
+{ "code": 40003, "message": "图形验证码错误或已过期" }
+</pre>
+</div>
+
+<h4>POST /api/v1/auth/login/2fa (2FA验证)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "temp_token": "temp_xxx", "code": "123456" }
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+    "expires_in": 7200
+  }
+}
+// Response 400
+{ "code": 40004, "message": "2FA验证码错误" }
+</pre>
+</div>
+
+<h4>POST /api/v1/auth/login/social (社媒登录)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "provider": "google",       // google|facebook|telegram|vk
+  "access_token": "ya29.xxx", // 第三方token
+  "device_fingerprint": "fp_abc123"
+}
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+    "expires_in": 7200,
+    "user": { "id": 100001, "nickname": "Google用户", "role": "member" },
+    "is_new_user": true
+  }
+}
+// Response 400
+{ "code": 40020, "message": "不支持的社媒平台" }
+</pre>
+</div>
+
+<h4>POST /api/v1/auth/password/forgot (忘记密码)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "account": "user@example.com", "type": "email" }  // type: email|sms
+
+// Response 200
+{ "code": 0, "data": { "reset_token": "rst_xxx", "expires_in": 300 } }
+// Response 400
+{ "code": 40010, "message": "账号不存在" }
+</pre>
+</div>
+
+<h4>POST /api/v1/auth/password/reset (重置密码)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "reset_token": "rst_xxx",
+  "new_password": "Abc123456!",
+  "code": "123456"  // 验证码
+}
+
+// Response 200
+{ "code": 0, "message": "密码重置成功" }
+// Response 400
+{ "code": 40011, "message": "重置令牌已过期,请重新申请" }
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/products (创建商品)</h4>
+<div class="card">
+<pre class="code-block">
+// Headers: Authorization: Bearer <token>
+// Request Body
+{
+  "name": "商品名称",
+  "description": "商品描述(富文本)",
+  "main_image": "https://cdn.xxx/product/xxx.jpg",
+  "images": ["https://cdn.xxx/product/1.jpg"],
+  "price": 99.00,
+  "original_price": 129.00,
+  "stock": 1000,
+  "category_id": 1,
+  "shipping_template_id": 1,
+  "specs": [{"name":"颜色","values":["红","蓝"]}],
+  "status": 1
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 200001 } }
+// Response 400
+{ "code": 40040, "message": "库存不能为负数" }
+</pre>
+</div>
+
+<h4>PUT /api/v1/admin/products/{id} (更新商品)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body (所有字段可选)
+{ "name": "新名称", "price": 89.00, "status": 2 }
+
+// Response 200
+{ "code": 0, "message": "更新成功" }
+// Response 404
+{ "code": 40401, "message": "商品不存在" }
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/categories (创建分类)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "name": "电子产品", "parent_id": 0, "sort_order": 1, "icon": "https://cdn.xxx/icon/ele.png" }
+
+// Response 200
+{ "code": 0, "data": { "id": 1001 } }
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/coupons (创建优惠券)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "name": "满100减20",
+  "type": 1,              // 1=满减 2=折扣 3=无门槛
+  "discount_value": 20,   // 满减:减免金额 / 折扣:折扣率(0.8=8折)
+  "min_amount": 100,      // 最低消费门槛
+  "total_count": 1000,    // 发行总量
+  "per_user_limit": 1,    // 每人限领
+  "start_time": "2026-09-01T00:00:00Z",
+  "end_time": "2026-09-30T23:59:59Z",
+  "expire_type": 1,       // 1=固定过期 2=领取后N天过期
+  "expire_days": 7        // expire_type=2时有效
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 300001, "template_id": "CP202609001" } }
+// Response 400
+{ "code": 40030, "message": "优惠券名称已存在" }
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/topics (创建专题)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "name": "夏季促销专题",
+  "description": "夏季热销商品精选",
+  "banner": "https://cdn.xxx/topic/summer.jpg",
+  "product_ids": [200001, 200002, 200003],
+  "sort_order": 1,
+  "start_time": "2026-06-01T00:00:00Z",
+  "end_time": "2026-08-31T23:59:59Z",
+  "status": 1
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 400001 } }
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/lottery/activities (创建抽奖活动)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "name": "周年庆抽奖",
+  "type": 1,               // 1=积分抽奖 2=消费抽奖 3=每日免费
+  "start_time": "2026-09-01T00:00:00Z",
+  "end_time": "2026-09-07T23:59:59Z",
+  "cost_points": 50,       // 每次消耗积分(积分抽奖)
+  "daily_limit": 3,        // 每日限抽次数
+  "prizes": [
+    { "name": "一等奖", "type": 1, "value": "iPhone 16", "weight": 1, "count": 1, "image": "https://cdn.xxx/prize/iphone.png" },
+    { "name": "积分", "type": 3, "value": "100", "weight": 30, "count": 999, "image": null }
+  ],
+  "status": 1
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 500001 } }
+// Response 400
+{ "code": 40060, "message": "活动名称已存在" }
+</pre>
+</div>
+
+<h4>GET /api/v1/admin/members (会员列表)</h4>
+<div class="card">
+<pre class="code-block">
+// Query: page=1&page_size=20&keyword=&level=&status=
+// Headers: Authorization: Bearer <token>
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "list": [
+      {
+        "id": 100001,
+        "email": "user@example.com",
+        "phone": "+8613800001111",
+        "nickname": "用户100001",
+        "avatar": "https://cdn.xxx/avatar/100001.png",
+        "level": 2,
+        "level_name": "金牌会员",
+        "points": 1250,
+        "balance": 88.50,
+        "order_count": 15,
+        "total_spent": 2380.00,
+        "status": 1,
+        "created_at": "2026-01-15T10:30:00Z",
+        "last_login_at": "2026-08-20T14:22:00Z"
+      }
+    ],
+    "total": 5280,
+    "page": 1,
+    "page_size": 20
+  }
+}
+</pre>
+</div>
+
+<h4>PUT /api/v1/admin/members/{id}/level (修改会员等级)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "level_id": 3, "reason": "手动升级" }
+
+// Response 200
+{ "code": 0, "message": "等级已更新" }
+// Response 404
+{ "code": 40401, "message": "会员不存在" }
+</pre>
+</div>
+
+<h4>GET /api/v1/admin/withdrawals (提现审核列表)</h4>
+<div class="card">
+<pre class="code-block">
+// Query: page=1&page_size=20&status=0&start_date=&end_date=
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "list": [
+      {
+        "id": "WD20260820001",
+        "distributor_id": 200001,
+        "distributor_name": "张三",
+        "amount": 500.00,
+        "fee": 5.00,
+        "actual_amount": 495.00,
+        "channel": "bank",    // bank|wallet
+        "bank_card_no": "****1234",
+        "status": 0,          // 0=待审核 1=审核通过 2=已打款 3=驳回 4=已取消
+        "created_at": "2026-08-20T09:00:00Z",
+        "reviewed_at": null
+      }
+    ],
+    "total": 42,
+    "page": 1,
+    "page_size": 20
+  }
+}
+</pre>
+</div>
+
+<h4>PUT /api/v1/admin/withdrawals/{id}/approve (审核通过)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "remark": "审核通过,已提交财务" }
+
+// Response 200
+{ "code": 0, "message": "审核通过" }
+// Response 409
+{ "code": 40901, "message": "该提现申请已被处理" }
+</pre>
+</div>
+
+<h4>PUT /api/v1/admin/withdrawals/{id}/reject (审核驳回)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "reject_reason": "银行卡信息与实名不符" }
+
+// Response 200
+{ "code": 0, "message": "已驳回" }
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/banners (创建轮播图)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "title": "夏季大促",
+  "image": "https://cdn.xxx/banner/summer.jpg",
+  "link_type": 1,   // 1=商品 2=专题 3=外链 4=无跳转
+  "link_value": "200001",
+  "position": 1,     // 1=首页 2=分类页 3=专题页
+  "sort_order": 1,
+  "start_time": "2026-06-01T00:00:00Z",
+  "end_time": "2026-08-31T23:59:59Z",
+  "status": 1
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 600001 } }
+</pre>
+</div>
+
+<h4>GET /api/v1/admin/audit-logs (审计日志)</h4>
+<div class="card">
+<pre class="code-block">
+// Query: page=1&page_size=50&admin_id=&action=&start_date=&end_date=
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "list": [
+      {
+        "id": 900001,
+        "admin_id": 1,
+        "admin_name": "超级管理员",
+        "action": "UPDATE",
+        "resource": "product",
+        "resource_id": "200001",
+        "old_value": {"price": 99.00},
+        "new_value": {"price": 89.00},
+        "ip": "183.157.89.208",
+        "user_agent": "Mozilla/5.0...",
+        "created_at": "2026-08-20T15:30:00Z"
+      }
+    ],
+    "total": 1520,
+    "page": 1,
+    "page_size": 50
+  }
+}
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/blacklist (加入黑名单)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "target_type": 1,     // 1=用户 2=IP 3=设备
+  "target_value": "100001",
+  "reason": "恶意刷单",
+  "duration": 0,        // 0=永久 单位:天
+  "operator_id": 1
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 800001 } }
+// Response 400
+{ "code": 40060, "message": "该目标已在黑名单中" }
+</pre>
+</div>
+
+<h4>GET /api/v1/admin/settings (系统设置)</h4>
+<div class="card">
+<pre class="code-block">
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "site_name": "万邦分销联盟",
+    "site_logo": "https://cdn.xxx/logo.png",
+    "icp": "京ICP备XXXXX号",
+    "currency": "CNY",
+    "language": "zh-CN",
+    "timezone": "Asia/Shanghai",
+    "commission_rate_range": {"min": 0.01, "max": 0.50},
+    "withdrawal": {
+      "min_amount": 10.00,
+      "fee_rate": 0.01,
+      "auto_approve": false,
+      "bank_only": false
+    },
+    "sms_gateway": {
+      "provider": "aliyun",
+      "daily_limit": 10,
+      "enabled": true
+    },
+    "maintenance": {
+      "enabled": false,
+      "message": "系统维护中"
+    }
+  }
+}
+</pre>
+</div>
+
+<h4>PUT /api/v1/admin/settings (更新系统设置)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body (partial update)
+{ "withdrawal": { "min_amount": 50.00, "fee_rate": 0.005 } }
+
+// Response 200
+{ "code": 0, "message": "设置已更新" }
+</pre>
+</div>
+
+<h4>GET /api/v1/admin/dashboard (管理后台看板)</h4>
+<div class="card">
+<pre class="code-block">
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "today": {
+      "order_count": 128,
+      "order_amount": 15680.00,
+      "new_users": 32,
+      "withdrawal_pending": 5
+    },
+    "week": {
+      "order_count": 856,
+      "order_amount": 102400.00,
+      "new_users": 210
+    },
+    "month": {
+      "order_count": 3520,
+      "order_amount": 425600.00,
+      "new_users": 890
+    },
+    "alerts": [
+      { "type": "withdrawal", "count": 5, "message": "5笔提现待审核" },
+      { "type": "stock", "count": 3, "message": "3个商品库存不足" },
+      { "type": "order", "count": 12, "message": "12笔订单待发货" }
+    ]
+  }
+}
+</pre>
+</div>
+
+<h4>POST /api/v1/member/cart (加入购物车)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "product_id": 200001, "quantity": 2, "spec": "{\"颜色\":\"红\"}" }
+
+// Response 200
+{ "code": 0, "data": { "cart_id": 700001, "count": 5 } }
+// Response 400
+{ "code": 40040, "message": "库存不足,当前库存:1" }
+</pre>
+</div>
+
+<h4>POST /api/v1/member/recharge (充值)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "amount": 100.00,
+  "channel": "alipay",  // alipay|wechat
+  "return_url": "https://m.xxx.com/recharge/result"
+}
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "order_id": "RC20260820001",
+    "pay_url": "https://mapi.alipay.com/xxx",
+    "amount": 100.00
+  }
+}
+// Response 400
+{ "code": 40007, "message": "金额超出范围(0.01-99999.99)" }
+</pre>
+</div>
+
+<h4>GET /api/v1/member/notifications (通知列表)</h4>
+<div class="card">
+<pre class="code-block">
+// Query: page=1&page_size=20&type=
+
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "list": [
+      {
+        "id": "NOT20260820001",
+        "type": "order",    // order|commission|system|lottery
+        "title": "订单已发货",
+        "content": "您的订单WB20260815001已发货,运单号SF1234567890",
+        "is_read": false,
+        "extra": {"order_no": "WB20260815001"},
+        "created_at": "2026-08-20T10:00:00Z"
+      }
+    ],
+    "total": 28,
+    "unread_count": 5,
+    "page": 1,
+    "page_size": 20
+  }
+}
+</pre>
+</div>
+
+<h4>POST /api/v1/admin/shipping-templates (创建运费模板)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{
+  "name": "全国包邮(偏远除外)",
+  "type": 1,  // 1=按件 2=按重 3=按体积
+  "regions": [
+    { "region_code": "110000", "region_name": "北京", "first_item": 1, "first_fee": 0, "additional_item": 1, "additional_fee": 0 },
+    { "region_code": "650000", "region_name": "新疆", "first_item": 1, "first_fee": 15, "additional_item": 1, "additional_fee": 10 }
+  ],
+  "free_shipping": { "enabled": true, "min_amount": 99.00 }
+}
+
+// Response 200
+{ "code": 0, "data": { "id": 800001 } }
+</pre>
+</div>
+
+<h4>PUT /api/v1/alliance/account/profile (更新联盟端资料)</h4>
+<div class="card">
+<pre class="code-block">
+// Request Body
+{ "nickname": "新昵称", "avatar": "https://cdn.xxx/avatar/new.png" }
+
+// Response 200
+{ "code": 0, "message": "资料已更新" }
+</pre>
+</div>
+
+<h4>GET /api/v1/alliance/dashboard (联盟端看板)</h4>
+<div class="card">
+<pre class="code-block">
+// Response 200
+{
+  "code": 0,
+  "data": {
+    "summary": {
+      "total_commission": 5680.00,
+      "pending_commission": 320.00,
+      "withdrawn_amount": 5200.00,
+      "available_balance": 160.00,
+      "team_size": 86,
+      "active_members": 52
+    },
+    "trend": [
+      { "date": "2026-08-14", "commission": 180.00, "orders": 12 },
+      { "date": "2026-08-15", "commission": 220.00, "orders": 15 }
+    ],
+    "rank": 3,
+    "rank_change": 1
+  }
+}
 </pre>
 </div>
 </section>
