@@ -9304,6 +9304,145 @@ sequenceDiagram
 </tbody>
 </table>
 </div>
+
+<h3>16.4 路由Meta字段定义</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Meta字段</th><th>类型</th><th>适用端</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>requiresAuth</td><td>boolean</td><td>全部</td><td>true=需登录, false=无需登录(默认true)</td></tr>
+<tr><td>role</td><td>string</td><td>全部</td><td>'member'|'distributor'|'admin', 控制角色级访问</td></tr>
+<tr><td>title</td><td>string</td><td>全部</td><td>页面标题, 用于document.title和面包屑</td></tr>
+<tr><td>keepAlive</td><td>boolean</td><td>会员端/后台</td><td>true=页面缓存(列表页保持滚动位置和筛选状态)</td></tr>
+<tr><td>showTabBar</td><td>boolean</td><td>会员端</td><td>是否显示底部导航栏</td></tr>
+<tr><td>showHeader</td><td>boolean</td><td>全部</td><td>是否显示顶部导航栏</td></tr>
+<tr><td>permission</td><td>string</td><td>后台</td><td>后台权限标识, 如 'product:list','order:ship'</td></tr>
+<tr><td>redirectIfAuthed</td><td>boolean</td><td>全部</td><td>true=已登录用户访问登录页时重定向到首页</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>16.5 路由懒加载配置</h3>
+<div class="card">
+<pre class="code-block">
+// member/router/routes.ts
+const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    component: () => import('@/layouts/MemberLayout.vue'),
+    meta: { requiresAuth: true, showTabBar: true },
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () => import('@/views/member/HomePage.vue'),
+        meta: { title: '首页', keepAlive: true }
+      },
+      {
+        path: 'products/:id',
+        name: 'productDetail',
+        component: () => import('@/views/member/ProductDetailPage.vue'),
+        meta: { title: '商品详情', showTabBar: false }
+      },
+      {
+        path: 'cart',
+        name: 'cart',
+        component: () => import('@/views/member/CartPage.vue'),
+        meta: { title: '购物车', showTabBar: true, keepAlive: true }
+      },
+      // ...其他路由同理使用动态import懒加载
+    ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/auth/LoginPage.vue'),
+    meta: { requiresAuth: false, redirectIfAuthed: true, title: '登录' }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/NotFoundPage.vue'),
+    meta: { requiresAuth: false, title: '页面不存在' }
+  }
+]
+</pre>
+</div>
+
+<h3>16.6 路由守卫实现</h3>
+<div class="card">
+<pre class="code-block">
+// member/router/guard.ts
+router.beforeEach(async (to, from) => {
+  const authStore = useAuthStore()
+
+  // 1. 设置页面标题
+  document.title = to.meta.title ? `${to.meta.title} - D7分销` : 'D7分销联盟'
+
+  // 2. 已登录用户访问登录/注册页 → 重定向首页
+  if (to.meta.redirectIfAuthed && authStore.isLoggedIn) {
+    return { name: 'home' }
+  }
+
+  // 3. 不需要认证的页面直接放行
+  if (to.meta.requiresAuth === false) return true
+
+  // 4. 需要认证但未登录 → 跳转登录页(携带redirect参数)
+  if (!authStore.isLoggedIn) {
+    return { name: 'login', query: { redirect: to.fullPath } }
+  }
+
+  // 5. Token过期自动刷新
+  if (authStore.isTokenExpired) {
+    try {
+      await authStore.refreshToken()
+    } catch {
+      authStore.logout()
+      return { name: 'login', query: { redirect: to.fullPath } }
+    }
+  }
+
+  // 6. 角色级权限校验
+  if (to.meta.role && to.meta.role !== authStore.role) {
+    ElMessage.error('无权访问该页面')
+    return { name: 'home' }
+  }
+
+  // 7. 后台细粒度权限校验
+  if (to.meta.permission && authStore.role === 'admin') {
+    const hasPermission = authStore.permissions.includes(to.meta.permission)
+    if (!hasPermission) {
+      ElMessage.error('暂无权限: ' + to.meta.permission)
+      return { name: 'dashboard' }
+    }
+  }
+
+  return true
+})
+
+// 路由后置守卫: 控制TabBar/Header显示
+router.afterEach((to) => {
+  const appStore = useAppStore()
+  appStore.showTabBar = to.meta.showTabBar !== false
+  appStore.showHeader = to.meta.showHeader !== false
+})
+</pre>
+</div>
+
+<h3>16.7 404与重定向处理</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>场景</th><th>处理方式</th><th>用户体验</th></tr></thead>
+<tbody>
+<tr><td>路径不存在(404)</td><td>匹配 catch-all 路由 → NotFoundPage.vue</td><td>显示404插画 + "返回首页"按钮</td></tr>
+<tr><td>商品/订单已删除</td><td>API返回40402, 前端展示"内容不存在"空状态</td><td>空状态图 + 返回上一页</td></tr>
+<tr><td>无权限访问(403)</td><td>API返回40300, 前端展示"无权限"提示</td><td>Toast提示 + 跳转可访问页面</td></tr>
+<tr><td>未登录访问受保护页</td><td>重定向 /login?redirect=原路径</td><td>登录成功后自动跳回原页面</td></tr>
+<tr><td>会员端访问后台路由</td><td>角色不匹配, 重定向会员首页</td><td>Toast "无权访问" + 跳转首页</td></tr>
+<tr><td>后台用户访问无权限菜单</td><td>permission校验失败, 重定向Dashboard</td><td>Toast提示具体缺失权限</td></tr>
+</tbody>
+</table>
+</div>
 </section>
 
 <!-- Chapter 17: 安全规范与错误码 -->
@@ -9506,6 +9645,210 @@ T1 & T2 & T3 & T4 & T5 --> A1 & A2 & A3
 </tbody>
 </table>
 </div>
+
+<h3>18.2 CI/CD流水线</h3>
+<div class="card">
+<pre class="code-block">
+# .github/workflows/deploy.yml
+name: Build & Deploy
+
+on:
+  push:
+    branches: [master, staging]
+  pull_request:
+    branches: [master]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # ───── 阶段1: 代码检查 ─────
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run type-check
+
+  # ───── 阶段2: 单元测试 ─────
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci
+      - run: npm run test:unit -- --coverage
+      - uses: codecov/codecov-action@v4
+
+  # ───── 阶段3: 构建Docker镜像 ─────
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ───── 阶段4: 部署到Staging ─────
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/staging'
+    environment: staging
+    steps:
+      - run: |
+          ssh deploy@staging.d7.com \
+            "docker pull $REGISTRY/$IMAGE_NAME:latest && \
+             docker compose up -d --no-deps app && \
+             docker image prune -f"
+
+  # ───── 阶段5: 部署到Production (手动审批) ─────
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: production
+      url: https://d7.com
+    steps:
+      - run: |
+          ssh deploy@d7.com \
+            "docker pull $REGISTRY/$IMAGE_NAME:${{ github.sha }} && \
+             docker tag $REGISTRY/$IMAGE_NAME:${{ github.sha }} $REGISTRY/$IMAGE_NAME:stable && \
+             docker compose up -d --no-deps app && \
+             sleep 10 && \
+             curl -f http://localhost:3000/health || (docker compose rollback && exit 1)"
+</pre>
+</div>
+
+<h3>18.3 环境变量管理</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>变量名</th><th>用途</th><th>开发环境</th><th>生产环境</th></tr></thead>
+<tbody>
+<tr><td>NODE_ENV</td><td>运行环境标识</td><td>development</td><td>production</td></tr>
+<tr><td>VITE_API_BASE_URL</td><td>API基础路径</td><td>http://localhost:3000/api/v1</td><td>https://api.d7.com/api/v1</td></tr>
+<tr><td>DB_HOST</td><td>MySQL主机</td><td>localhost</td><td>mysql-master.internal</td></tr>
+<tr><td>DB_NAME</td><td>数据库名</td><td>d7_dev</td><td>d7_prod</td></tr>
+<tr><td>REDIS_HOST</td><td>Redis主机</td><td>localhost</td><td>redis.internal</td></tr>
+<tr><td>JWT_SECRET</td><td>JWT签名密钥</td><td>dev-secret-32chars</td><td>生产密钥(只注入不存储)</td></tr>
+<tr><td>JWT_REFRESH_SECRET</td><td>Refresh Token密钥</td><td>dev-refresh-secret</td><td>生产密钥(只注入不存储)</td></tr>
+<tr><td>OSS_ENDPOINT</td><td>对象存储端点</td><td>http://localhost:9000</td><td>https://oss.d7.com</td></tr>
+<tr><td>OSS_BUCKET</td><td>存储桶名</td><td>d7-dev</td><td>d7-production</td></tr>
+<tr><td>SMS_API_KEY</td><td>SMS网关密钥</td><td>test-key</td><td>生产密钥</td></tr>
+<tr><td>EMAIL_API_KEY</td><td>邮件服务密钥</td><td>test-key</td><td>生产密钥</td></tr>
+<tr><td>PAYMENT_SBER_KEY</td><td>Сбер收单密钥</td><td>test-key</td><td>生产密钥</td></tr>
+<tr><td>PAYMENT_YOOMONEY_KEY</td><td>ЮMoney密钥</td><td>test-key</td><td>生产密钥</td></tr>
+<tr><td>PAYMENT_QIWI_KEY</td><td>QIWI密钥</td><td>test-key</td><td>生产密钥</td></tr>
+<tr><td>PAYMENT_PAYPAL_KEY</td><td>PayPal密钥</td><td>test-key</td><td>生产密钥</td></tr>
+<tr><td>WEBHOOK_BASE_URL</td><td>回调基础URL</td><td>http://localhost:3000</td><td>https://api.d7.com</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>18.4 Docker容器化</h3>
+<div class="card">
+<pre class="code-block">
+# Dockerfile (多阶段构建)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json .
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget -qO- http://localhost:3000/health || exit 1
+CMD ["node", "dist/server.js"]
+
+# docker-compose.yml
+services:
+  app:
+    build: .
+    ports: ["3000:3000"]
+    env_file: .env.production
+    depends_on: [mysql, redis, rabbitmq]
+    restart: unless-stopped
+    deploy:
+      replicas: 3
+      resources:
+        limits: { memory: 1G, cpus: '2.0' }
+
+  mysql:
+    image: mysql:8.0
+    env_file: .env.production
+    volumes: ["mysql_data:/var/lib/mysql"]
+    ports: ["3306:3306"]
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes: ["redis_data:/data"]
+    ports: ["6379:6379"]
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    volumes: ["rabbitmq_data:/var/lib/rabbitmq"]
+    ports: ["5672:5672", "15672:15672"]
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    ports: ["80:80", "443:443"]
+    depends_on: [app]
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:
+  rabbitmq_data:
+</pre>
+</div>
+
+<h3>18.5 回滚策略</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>回滚场景</th><th>触发条件</th><th>回滚操作</th><th>恢复时间</th></tr></thead>
+<tbody>
+<tr><td>应用回滚</td><td>健康检查连续3次失败/错误率>5%</td><td>docker compose rollback (切回上一镜像tag)</td><td>~30秒</td></tr>
+<tr><td>数据库回滚</td><td>Migration导致数据异常</td><td>执行反向Migration脚本 + 恢复最近备份</td><td>~10分钟</td></tr>
+<tr><td>配置回滚</td><td>环境变量配置错误</td><td>Git revert配置文件 + 重新部署</td><td>~2分钟</td></tr>
+<tr><td>灰度回滚</td><td>灰度版本异常</td><td>停止灰度流量 + 全量切回稳定版本</td><td>~10秒</td></tr>
+</tbody>
+</table>
+</div>
 </section>
 
 <!-- Chapter 19: 测试要求 -->
@@ -9535,6 +9878,96 @@ T1 & T2 & T3 & T4 & T5 --> A1 & A2 & A3
   <li>重点：下单、抽奖、提现并发场景</li>
   <li>验收：P95 < 500ms，无超卖/重复提现</li>
 </ul>
+
+<h3>19.3 单元测试用例</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>模块</th><th>用例编号</th><th>测试函数</th><th>输入</th><th>预期输出</th><th>边界/异常</th></tr></thead>
+<tbody>
+<tr><td>订单</td><td>UT-ORD-01</td><td>createOrder()</td><td>cartItemIds=[1,2], addressId=10, couponId=null</td><td>返回orderNo, status=1(待支付), 金额=商品总价+运费</td><td>—</td></tr>
+<tr><td>订单</td><td>UT-ORD-02</td><td>createOrder()</td><td>库存不足的商品</td><td>抛出BizException(40010, "库存不足")</td><td>库存=0时拒绝</td></tr>
+<tr><td>订单</td><td>UT-ORD-03</td><td>cancelOrder()</td><td>orderNo="ORD001", status=1(待支付)</td><td>status→5(已取消), 回补库存, 退还优惠券</td><td>status≠1时拒绝</td></tr>
+<tr><td>订单</td><td>UT-ORD-04</td><td>calcOrderAmount()</td><td>items=[{price:99,qty:2}], shippingFee=15, couponDiscount=20</td><td>totalAmount=213 (99×2+15-20)</td><td>discount>subtotal时clamp为0</td></tr>
+<tr><td>佣金</td><td>UT-COM-01</td><td>calcCommission()</td><td>orderAmount=299, rate=0.10, level=2</td><td>commission=29.90, levelBonus=5.00, total=34.90</td><td>rate=0时返回0</td></tr>
+<tr><td>佣金</td><td>UT-COM-02</td><td>settleCommission()</td><td>orderId=1, orderStatus=4(已签收)</td><td>commission.status→1(已结算), 记录balance_log</td><td>未签收时拒绝结算</td></tr>
+<tr><td>佣金</td><td>UT-COM-03</td><td>rollbackCommission()</td><td>orderId=1, reason="退款"</td><td>commission.status→2(已取消), 扣减分销商余额</td><td>余额不足时记录欠款</td></tr>
+<tr><td>抽奖</td><td>UT-LOT-01</td><td>drawLottery()</td><td>activityId=1, userId=100, pointsCost=50</td><td>返回prizeId, 扣减50积分, 记录中奖</td><td>积分不足时拒绝</td></tr>
+<tr><td>抽奖</td><td>UT-LOT-02</td><td>drawLottery() 并发</td><td>同一activityId, 100并发请求</td><td>Redis原子扣减无超抽, INCR>maxDraws时返回"已抽完"</td><td>并发安全验证</td></tr>
+<tr><td>抽奖</td><td>UT-LOT-03</td><td>calcProbability()</td><td>prizes=[{id:1,prob:30},{id:2,prob:70}]</td><td>1000次抽样, 中奖比例≈30:70, 误差<1%</td><td>概率总和必须=100</td></tr>
+<tr><td>优惠券</td><td>UT-COP-01</td><td>useCoupon()</td><td>couponId=5, orderAmount=200, threshold=100</td><td>status→1(已使用), discount=20(满减)</td><td>amount<threshold时拒绝</td></tr>
+<tr><td>优惠券</td><td>UT-COP-02</td><td>useCoupon() 并发</td><td>同一couponId, 10并发</td><td>仅1人成功使用, 其余返回"券已被使用"</td><td>乐观锁version+1</td></tr>
+<tr><td>优惠券</td><td>UT-COP-03</td><td>expireCoupon()</td><td>endTime<now()</td><td>status→2(已过期), 释放占用</td><td>已使用的券不处理</td></tr>
+<tr><td>提现</td><td>UT-WD-01</td><td>requestWithdrawal()</td><td>amount=500, balance=1000</td><td>balance→500, withdrawal.status=0(待审核)</td><td>amount<100或>balance拒绝</td></tr>
+<tr><td>提现</td><td>UT-WD-02</td><td>requestWithdrawal() 并发</td><td>同一用户2次并发提现</td><td>仅1次成功, 第2次余额不足</td><td>分布式锁user:withdraw:uid</td></tr>
+<tr><td>提现</td><td>UT-WD-03</td><td>auditWithdrawal()</td><td>withdrawalId=1, action=approve</td><td>status→1(审核通过), 触发打款任务</td><td>非待审核状态拒绝</td></tr>
+<tr><td>认证</td><td>UT-AUTH-01</td><td>generateToken()</td><td>userId=100, role="member"</td><td>返回JWT(exp=2h), 含userId/role</td><td>过期token抛401</td></tr>
+<tr><td>认证</td><td>UT-AUTH-02</td><td>refreshToken()</td><td>refreshToken=valid</td><td>返回新accessToken, 旧token加入黑名单</td><td>refresh过期需重新登录</td></tr>
+<tr><td>认证</td><td>UT-AUTH-03</td><td>verifySmsCode()</td><td>phone="+7123456789", code="123456"</td><td>Redis匹配→true, 删除已用code</td><td>错误5次锁定30分钟</td></tr>
+<tr><td>商品</td><td>UT-PROD-01</td><td>updateStock()</td><td>productId=1, delta=-2</td><td>stock: 100→98, 同步Redis缓存</td><td>stock<0时拒绝并回滚</td></tr>
+<tr><td>商品</td><td>UT-PROD-02</td><td>onShelf()</td><td>productId=1, currentStatus=2(下架)</td><td>status→1(上架), 写入操作日志</td><td>缺货商品不允许上架</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>19.4 集成测试场景</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>场景编号</th><th>场景描述</th><th>涉及API</th><th>前置条件</th><th>验证点</th></tr></thead>
+<tbody>
+<tr><td>IT-01</td><td>注册→登录→浏览商品→下单→支付→发货→签收→佣金结算</td><td>POST /auth/register, POST /auth/login, GET /member/products, POST /member/orders, POST /payment/pay, POST /admin/orders/{id}/ship, POST /member/orders/{id}/confirm-receipt</td><td>商品已上架, 库存充足</td><td>订单状态流转1→2→3→4, 佣金status=1(已结算), 余额正确入账</td></tr>
+<tr><td>IT-02</td><td>下单→使用优惠券→退款→券释放+佣金回滚</td><td>POST /member/orders, POST /member/orders/{id}/use-coupon, POST /member/orders/{id}/refund</td><td>用户持有有效券</td><td>退款后coupon.status=0(未使用), commission.status=2(已取消), 库存回补</td></tr>
+<tr><td>IT-03</td><td>分销商入驻→审核通过→邀请用户→下单→佣金到账→提现</td><td>POST /alliance/application, POST /admin/applications/{id}/approve, POST /auth/register(inviteCode), POST /member/orders, GET /alliance/commissions, POST /alliance/withdrawal</td><td>入驻审核通过</td><td>佣金正确计算, 提现后余额扣减, 打款状态流转</td></tr>
+<tr><td>IT-04</td><td>抽奖活动创建→配置奖品→用户抽奖→中奖发放</td><td>POST /admin/lottery/activities, POST /admin/prizes, POST /alliance/lottery/activities/{id}/draw</td><td>活动进行中, 积分充足</td><td>积分扣减, 中奖记录生成, 实物奖品→待发货, 优惠券→自动发放, 积分→即时入账</td></tr>
+<tr><td>IT-05</td><td>充值→余额到账→使用余额下单</td><td>GET /member/recharge/exchange-rates, POST /member/recharge, POST /webhook/payment/recharge, POST /member/orders (balance支付)</td><td>支付回调正常</td><td>充值金额按汇率换算, 余额增加, 订单支付成功, 余额扣减正确</td></tr>
+<tr><td>IT-06</td><td>后台批量操作→商品上架/下架→订单导出</td><td>POST /admin/products/batch-on-shelf, POST /admin/products/batch-off-shelf, GET /admin/orders/export</td><td>多商品存在</td><td>批量更新事务原子性, 导出CSV含正确字段</td></tr>
+<tr><td>IT-07</td><td>Token过期→自动刷新→继续请求</td><td>任意API + POST /auth/refresh</td><td>accessToken过期, refreshToken有效</td><td>透明刷新, 原请求重试成功, 无401中断</td></tr>
+<tr><td>IT-08</td><td>会员等级升级→价格自动切换</td><td>POST /admin/members/{id}/adjust-points (达到升级阈值), GET /member/products</td><td>积分达到升级线</td><td>level自动+1, 后续商品显示会员价</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>19.5 E2E端到端测试（Playwright/Cypress）</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>用例编号</th><th>用户旅程</th><th>步骤</th><th>断言</th></tr></thead>
+<tbody>
+<tr><td>E2E-01</td><td>新用户注册到首次购买</td><td>1.打开/register 2.填写表单 3.获取验证码 4.提交注册 5.跳转登录 6.登录 7.浏览首页 8.点击商品 9.加入购物车 10.结算 11.选择地址 12.支付 13.跳转支付成功页</td><td>URL正确跳转, 购物车数量更新, 订单状态=待支付→已支付, 支付成功Toast显示</td></tr>
+<tr><td>E2E-02</td><td>分销商入驻全流程</td><td>1.登录分销联盟端 2.填写入驻申请 3.上传营业执照 4.提交审核 5.后台管理员审核通过 6.分销商刷新页面看到已通过 7.获取邀请码 8.分享链接</td><td>入驻状态从"待审核"→"已通过", 邀请码生成, 分享链接可复制</td></tr>
+<tr><td>E2E-03</td><td>抽奖完整交互</td><td>1.进入抽奖页 2.查看奖品列表 3.点击抽奖 4.等待动画结束 5.查看中奖结果 6.跳转中奖记录</td><td>抽奖按钮可点击(积分充足), 动画播放, 结果弹窗显示, 记录页含最新中奖</td></tr>
+<tr><td>E2E-04</td><td>后台订单管理</td><td>1.登录后台 2.进入订单列表 3.筛选待发货 4.点击发货 5.填写物流信息 6.提交 7.会员端查看物流</td><td>筛选结果正确, 发货后订单状态=已发货, 会员端可见物流轨迹</td></tr>
+<tr><td>E2E-05</td><td>提现申请到到账</td><td>1.分销商进入提现页 2.输入金额 3.选择银行卡 4.输入支付密码 5.提交 6.后台审核通过 7.打款完成 8.查看余额变动</td><td>提现状态: 待审核→审核通过→已打款, 余额正确扣减, 变动记录存在</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>19.6 测试覆盖率目标</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>层级</th><th>工具</th><th>覆盖率目标</th><th>关键模块</th></tr></thead>
+<tbody>
+<tr><td>单元测试</td><td>Vitest / Jest</td><td>≥80%行覆盖</td><td>订单计算/佣金计算/抽奖概率/优惠券核销/库存扣减</td></tr>
+<tr><td>集成测试</td><td>Supertest / Testcontainers</td><td>≥70%API覆盖</td><td>认证/订单/提现/抽奖/充值核心链路</td></tr>
+<tr><td>E2E测试</td><td>Playwright</td><td>5条核心用户旅程100%通过</td><td>注册购买/分销入驻/抽奖/后台发货/提现</td></tr>
+<tr><td>性能测试</td><td>k6 / Locust</td><td>P95<500ms @500QPS</td><td>下单/抽奖/提现并发场景</td></tr>
+<tr><td>安全测试</td><td>OWASP ZAP / npm audit</td><td>0个高危漏洞</td><td>XSS/SQL注入/越权/CSRF</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>19.7 测试数据准备</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>数据集</th><th>内容</th><th>用途</th><th>准备方式</th></tr></thead>
+<tbody>
+<tr><td>种子用户</td><td>3个角色各5个账号 (member/distributor/admin)</td><td>登录与权限测试</td><td>DB seed脚本</td></tr>
+<tr><td>商品集</td><td>20个商品 (含上架/下架/缺货各状态)</td><td>商品列表与详情测试</td><td>DB seed脚本</td></tr>
+<tr><td>订单集</td><td>50个订单 (覆盖全部8种状态)</td><td>订单流转测试</td><td>DB seed脚本</td></tr>
+<tr><td>优惠券集</td><td>满减/折扣/无门槛各10张</td><td>优惠券核销测试</td><td>DB seed脚本</td></tr>
+<tr><td>抽奖活动</td><td>1个进行中活动 + 4种奖品类型</td><td>抽奖概率与发放测试</td><td>DB seed脚本</td></tr>
+<tr><td>Mock支付回调</td><td>模拟支付网关回调响应</td><td>支付流程集成测试</td><td>Mock Server (nock/MSW)</td></tr>
+</tbody>
+</table>
+</div>
 </section>
 
 <!-- Chapter 20: 上线检查清单 -->
@@ -9563,6 +9996,107 @@ T1 & T2 & T3 & T4 & T5 --> A1 & A2 & A3
 <tr><td>安全扫描通过</td><td>☐</td><td>安全</td></tr>
 <tr><td>数据备份策略确认</td><td>☐</td><td>运维</td></tr>
 <tr><td>监控告警配置</td><td>☐</td><td>运维</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>20.2 数据备份验证</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>检查项</th><th>验证方法</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>MySQL全量备份</td><td>mysqldump --single-transaction d7_prod | gzip > backup_$(date +%Y%m%d).sql.gz</td><td>☐</td></tr>
+<tr><td>备份恢复测试</td><td>在测试环境恢复备份, 验证数据完整性(表数量/行数一致)</td><td>☐</td></tr>
+<tr><td>Redis持久化验证</td><td>检查AOF/RDB文件存在且可恢复</td><td>☐</td></tr>
+<tr><td>OSS跨区域复制</td><td>上传测试文件, 验证跨区域副本存在</td><td>☐</td></tr>
+<tr><td>备份保留策略</td><td>确认: 日备份保留7天, 周备份保留4周, 月备份保留6月</td><td>☐</td></tr>
+<tr><td>备份加密</td><td>验证备份文件已加密(AES-256)</td><td>☐</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>20.3 性能基线指标</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>指标</th><th>基线值</th><th>验收标准</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>首页加载(LCP)</td><td>—</td><td>< 2.5s (移动端4G)</td><td>☐</td></tr>
+<tr><td>商品列表API</td><td>—</td><td>P95 < 200ms @ 500QPS</td><td>☐</td></tr>
+<tr><td>下单API</td><td>—</td><td>P95 < 300ms @ 200QPS</td><td>☐</td></tr>
+<tr><td>抽奖API</td><td>—</td><td>P95 < 200ms @ 100QPS (并发安全)</td><td>☐</td></tr>
+<tr><td>提现API</td><td>—</td><td>P95 < 300ms @ 50QPS (并发安全)</td><td>☐</td></tr>
+<tr><td>前端FCP</td><td>—</td><td>< 1.5s</td><td>☐</td></tr>
+<tr><td>Cumulative Layout Shift</td><td>—</td><td>CLS < 0.1</td><td>☐</td></tr>
+<tr><td>数据库慢查询</td><td>—</td><td>0条 > 500ms 的查询</td><td>☐</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>20.4 安全扫描清单</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>扫描项</th><th>工具</th><th>验收标准</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>依赖漏洞</td><td>npm audit / pip-audit</td><td>0个高危(Critical/High)</td><td>☐</td></tr>
+<tr><td>XSS漏洞</td><td>OWASP ZAP</td><td>0个反射型/存储型XSS</td><td>☐</td></tr>
+<tr><td>SQL注入</td><td>OWASP ZAP / SQLMap</td><td>0个注入点</td><td>☐</td></tr>
+<tr><td>越权访问</td><td>手动+自动化</td><td>会员间数据隔离, 管理员权限边界正确</td><td>☐</td></tr>
+<tr><td>CSRF防护</td><td>OWASP ZAP</td><td>敏感操作均有CSRF Token</td><td>☐</td></tr>
+<tr><td>HTTPS/TLS</td><td>SSL Labs</td><td>TLS 1.2+, 评级A+</td><td>☐</td></tr>
+<tr><td>敏感信息泄露</td><td>GitLeaks</td><td>代码仓库无密钥/Token泄露</td><td>☐</td></tr>
+<tr><td>API限流验证</td><td>k6脚本模拟</td><td>超限返回429, 无服务降级</td><td>☐</td></tr>
+<tr><td>JWT安全</td><td>手动检查</td><td>HttpOnly Cookie/短期有效/Refresh黑名单</td><td>☐</td></tr>
+<tr><td>文件上传安全</td><td>手动测试</td><td>限制类型/大小, 病毒扫描, 不执行上传文件</td><td>☐</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>20.5 上线后冒烟测试</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>序号</th><th>测试项</th><th>验证方法</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>S-01</td><td>三端登录正常</td><td>member/distributor/admin三端各登录一次</td><td>☐</td></tr>
+<tr><td>S-02</td><td>商品浏览正常</td><td>访问首页, 点击商品详情, 图片加载正常</td><td>☐</td></tr>
+<tr><td>S-03</td><td>下单支付链路</td><td>下单→支付→订单状态更新正确</td><td>☐</td></tr>
+<tr><td>S-04</td><td>图片上传</td><td>后台上传商品图片, 验证OSS存储正常</td><td>☐</td></tr>
+<tr><td>S-05</td><td>短信发送</td><td>获取验证码, 确认SMS送达</td><td>☐</td></tr>
+<tr><td>S-06</td><td>邮件发送</td><td>触发注册/提现邮件, 确认送达</td><td>☐</td></tr>
+<tr><td>S-07</td><td>支付回调</td><td>模拟支付网关回调, 确认订单/充值状态更新</td><td>☐</td></tr>
+<tr><td>S-08</td><td>物流回调</td><td>模拟CDEK状态回调, 确认运单状态更新</td><td>☐</td></tr>
+<tr><td>S-09</td><td>定时任务运行</td><td>确认订单超时取消/佣金结算任务执行</td><td>☐</td></tr>
+<tr><td>S-10</td><td>后台管理可用</td><td>后台各模块列表/新增/编辑/删除正常</td><td>☐</td></tr>
+<tr><td>S-11</td><td>分销功能可用</td><td>分销看板/佣金查看/提现申请正常</td><td>☐</td></tr>
+<tr><td>S-12</td><td>监控告警生效</td><td>触发模拟告警, 确认告警通知到达</td><td>☐</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>20.6 回滚预案</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>阶段</th><th>操作</th><th>负责人</th><th>回滚时限</th></tr></thead>
+<tbody>
+<tr><td>发现异常</td><td>监控告警触发 → 确认异常级别 → 通知决策人</td><td>运维</td><td>5分钟内</td></tr>
+<tr><td>决策回滚</td><td>评估影响范围 → 决定是否回滚 → 通知全员</td><td>技术负责人</td><td>10分钟内</td></tr>
+<tr><td>执行回滚</td><td>docker compose rollback → 切回stable镜像 → 验证恢复</td><td>运维</td><td>5分钟内</td></tr>
+<tr><td>数据库处理</td><td>如有DDL变更: 评估反向Migration; 如有数据写入: 从备份恢复</td><td>后端+DBA</td><td>30分钟内</td></tr>
+<tr><td>回滚验证</td><td>执行冒烟测试S-01至S-12 → 确认系统恢复正常</td><td>测试</td><td>15分钟内</td></tr>
+<tr><td>事后复盘</td><td>编写事故报告 → 根因分析 → 预防措施 → 更新检查清单</td><td>全员</td><td>24小时内</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>20.7 灰度发布步骤</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>阶段</th><th>流量比例</th><th>观察指标</th><th>持续时间</th></tr></thead>
+<tbody>
+<tr><td>内测阶段</td><td>0% (内部测试)</td><td>功能正确性/错误日志</td><td>2小时</td></tr>
+<tr><td>灰度1</td><td>5%流量</td><td>错误率<0.1%, P95<500ms, 告警数=0</td><td>1小时</td></tr>
+<tr><td>灰度2</td><td>20%流量</td><td>错误率<0.1%, P95<500ms, 告警数=0</td><td>2小时</td></tr>
+<tr><td>灰度3</td><td>50%流量</td><td>错误率<0.05%, P95<500ms, 告警数=0</td><td>4小时</td></tr>
+<tr><td>全量发布</td><td>100%流量</td><td>所有指标正常, 冒烟测试通过</td><td>持续监控</td></tr>
 </tbody>
 </table>
 </div>
@@ -12664,6 +13198,255 @@ defineStore('order', {
     async confirmReceipt(orderNo) { ... }
   }
 })
+</pre>
+</div>
+
+<h3>27.7 API Service层架构</h3>
+<p>API Service层基于axios封装，统一处理请求/响应拦截、Token自动刷新、错误处理和重试逻辑，按业务模块组织API调用。</p>
+
+<h4>27.7.1 Axios实例封装</h4>
+<div class="card">
+<pre class="code-block">
+// shared/http/client.ts
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
+import { useAuthStore } from '@/stores/auth'
+
+const client: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
+  timeout: 15000,
+  withCredentials: false,
+})
+
+// 请求拦截器: 注入Token + TraceId
+client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const authStore = useAuthStore()
+  if (authStore.token) {
+    config.headers.Authorization = `Bearer ${authStore.token}`
+  }
+  config.headers['X-Trace-Id'] = crypto.randomUUID()
+  config.headers['X-Lang'] = localStorage.getItem('lang') || 'ru'
+  return config
+})
+
+// 响应拦截器: 统一错误处理 + Token刷新
+let isRefreshing = false
+let pendingQueue: Array<(token: string) => void> = []
+
+client.interceptors.response.use(
+  (response) => {
+    const { code, message, data } = response.data
+    if (code === 0) return response.data
+    ElMessage.error(message || '请求失败')
+    return Promise.reject(response.data)
+  },
+  async (error) => {
+    const originalRequest = error.config
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          pendingQueue.push((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`
+            resolve(client(originalRequest))
+          })
+        })
+      }
+      originalRequest._retry = true
+      isRefreshing = true
+      try {
+        const authStore = useAuthStore()
+        const newToken = await authStore.refreshToken()
+        pendingQueue.forEach((cb) => cb(newToken))
+        pendingQueue = []
+        originalRequest.headers.Authorization = `Bearer ${newToken}`
+        return client(originalRequest)
+      } catch {
+        const authStore = useAuthStore()
+        authStore.logout()
+        router.push({ name: 'login' })
+        return Promise.reject(error)
+      } finally {
+        isRefreshing = false
+      }
+    }
+    if (error.response?.status === 429) {
+      ElMessage.warning('操作过于频繁, 请稍后再试')
+      return Promise.reject(error)
+    }
+    if (error.response?.status >= 500) {
+      ElMessage.error('服务器开小差了, 请稍后重试')
+    }
+    return Promise.reject(error)
+  }
+)
+export default client
+</pre>
+</div>
+
+<h4>27.7.2 API模块组织</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>文件路径</th><th>模块</th><th>导出函数</th></tr></thead>
+<tbody>
+<tr><td>api/auth.ts</td><td>认证</td><td>login(), register(), refreshToken(), sendSmsCode(), verifyEmail()</td></tr>
+<tr><td>api/member/product.ts</td><td>会员商品</td><td>getProducts(params), getProductDetail(id), getBanners()</td></tr>
+<tr><td>api/member/order.ts</td><td>会员订单</td><td>createOrder(payload), getOrders(params), getOrderDetail(no), cancelOrder(no), refundOrder(no, payload), confirmReceipt(no)</td></tr>
+<tr><td>api/member/cart.ts</td><td>购物车</td><td>getCart(), addToCart(productId, qty), updateQuantity(itemId, qty), removeItem(itemId), clearCart()</td></tr>
+<tr><td>api/member/address.ts</td><td>收货地址</td><td>getAddresses(), createAddress(payload), updateAddress(id, payload), deleteAddress(id), setDefault(id)</td></tr>
+<tr><td>api/member/coupon.ts</td><td>优惠券</td><td>getCoupons(params), getClaimable(), claimCoupon(id), useCoupon(orderNo, id)</td></tr>
+<tr><td>api/member/recharge.ts</td><td>充值</td><td>getExchangeRates(), createRecharge(payload), getRechargeResult(id), getRechargeRecords(params)</td></tr>
+<tr><td>api/alliance/dashboard.ts</td><td>分销看板</td><td>getDashboard(), getTeam(params), getCommissions(params), getInviteStats()</td></tr>
+<tr><td>api/alliance/withdrawal.ts</td><td>分销提现</td><td>getBalance(), requestWithdrawal(payload), getWithdrawals(params), getWithdrawalDetail(id)</td></tr>
+<tr><td>api/alliance/lottery.ts</td><td>抽奖</td><td>getActivities(), getActivityDetail(id), drawLottery(id), getRecords(params)</td></tr>
+<tr><td>api/alliance/account.ts</td><td>分销账号</td><td>getProfile(), updateProfile(payload), updatePassword(payload), getBankCards(), addBankCard(payload), deleteBankCard(id), getDevices()</td></tr>
+<tr><td>api/admin/product.ts</td><td>后台商品</td><td>getProducts(params), createProduct(payload), updateProduct(id, payload), deleteProduct(id), batchOnShelf(ids), batchOffShelf(ids)</td></tr>
+<tr><td>api/admin/order.ts</td><td>后台订单</td><td>getOrders(params), shipOrder(id, payload), updateLogistics(id, payload), exportOrders(params)</td></tr>
+<tr><td>api/admin/member.ts</td><td>后台会员</td><td>getMembers(params), freezeMember(id), unfreezeMember(id), adjustBalance(id, payload), adjustPoints(id, payload)</td></tr>
+<tr><td>api/admin/finance.ts</td><td>财务管理</td><td>getWithdrawals(params), auditWithdrawal(id, action), markPaid(id), getFinanceStats(params), getCommissionReport(params)</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>27.7.3 API模块示例</h4>
+<div class="card">
+<pre class="code-block">
+// api/member/order.ts
+import client from '@/shared/http/client'
+import type { CreateOrderDTO, OrderListParams, OrderDetailVO } from '@/types/dto'
+
+export const orderApi = {
+  createOrder(data: CreateOrderDTO) {
+    return client.post<{ code: number; data: { orderNo: string } }>('/member/orders', data)
+  },
+  getOrders(params: OrderListParams) {
+    return client.get<{ code: number; data: { list: OrderDetailVO[]; total: number } }>('/member/orders', { params })
+  },
+  getOrderDetail(orderNo: string) {
+    return client.get<{ code: number; data: OrderDetailVO }>(`/member/orders/${orderNo}`)
+  },
+  cancelOrder(orderNo: string) {
+    return client.post(`/member/orders/${orderNo}/cancel`)
+  },
+  confirmReceipt(orderNo: string) {
+    return client.post(`/member/orders/${orderNo}/confirm-receipt`)
+  },
+  refund(orderNo: string, data: { reason: string; images?: string[] }) {
+    return client.post(`/member/orders/${orderNo}/refund`, data)
+  },
+}
+</pre>
+</div>
+
+<h3>27.8 Composables (组合式函数)</h3>
+<p>封装可复用的业务逻辑，供组件直接调用，避免组件内直接操作API和状态管理。</p>
+<div class="card">
+<pre class="code-block">
+// composables/useOrder.ts
+export function useOrder() {
+  const orderStore = useOrderStore()
+  const loading = ref(false)
+
+  async function createOrder(payload: CreateOrderDTO) {
+    loading.value = true
+    try {
+      const res = await orderApi.createOrder(payload)
+      ElMessage.success('订单创建成功')
+      return res.data
+    } catch (err: any) {
+      if (err.code === 40010) ElMessage.error('库存不足')
+      else if (err.code === 40011) ElMessage.error('商品已下架')
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function fetchOrders(params: OrderListParams) {
+    loading.value = true
+    try {
+      const res = await orderApi.getOrders(params)
+      orderStore.orderList = res.data.list
+      return res.data
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { loading, createOrder, fetchOrders }
+}
+
+// composables/usePagination.ts
+export function usePagination<T>(fetchFn: (params: any) => Promise<{ list: T[]; total: number }>, defaultPageSize = 20) {
+  const page = ref(1)
+  const pageSize = ref(defaultPageSize)
+  const total = ref(0)
+  const list = ref<T[]>([])
+  const loading = ref(false)
+
+  async function load(extraParams = {}) {
+    loading.value = true
+    try {
+      const res = await fetchFn({ page: page.value, pageSize: pageSize.value, ...extraParams })
+      list.value = res.list
+      total.value = res.total
+    } finally {
+      loading.value = false
+    }
+  }
+
+  function onCurrentChange(p: number) { page.value = p; load() }
+  function onSizeChange(s: number) { pageSize.value = s; page.value = 1; load() }
+
+  return { page, pageSize, total, list, loading, load, onCurrentChange, onSizeChange }
+}
+
+// composables/useCountdown.ts
+export function useCountdown(seconds: number) {
+  const remaining = ref(seconds)
+  let timer: ReturnType<typeof setInterval> | null = null
+
+  function start() {
+    remaining.value = seconds
+    timer = setInterval(() => {
+      if (remaining.value > 0) remaining.value--
+      else stop()
+    }, 1000)
+  }
+
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null }
+  }
+
+  const minutes = computed(() => Math.floor(remaining.value / 60))
+  const secondsStr = computed(() => String(remaining.value % 60).padStart(2, '0'))
+  const display = computed(() => `${minutes.value}:${secondsStr.value}`)
+
+  onUnmounted(stop)
+  return { remaining, display, start, stop }
+}
+
+// composables/useFormDialog.ts
+export function useFormDialog<T>(defaultForm: T) {
+  const visible = ref(false)
+  const form = ref({ ...defaultForm }) as Ref<T>
+  const formRef = ref<FormInstance>()
+
+  function open(data?: Partial<T>) {
+    form.value = data ? { ...defaultForm, ...data } : { ...defaultForm }
+    visible.value = true
+  }
+
+  function close() {
+    visible.value = false
+    formRef.value?.resetFields()
+  }
+
+  async function validate(): Promise<boolean> {
+    if (!formRef.value) return true
+    return await formRef.value.validate().catch(() => false)
+  }
+
+  return { visible, form, formRef, open, close, validate }
+}
 </pre>
 </div>
 </section>
