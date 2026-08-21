@@ -5550,6 +5550,170 @@ sequenceDiagram
 </pre>
 </div>
 
+<h4>页面布局 — 新增渠道API配置页</h4>
+<div class="card">
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  ← 新增渠道API映射配置                                               [保存配置] [测试] [取消]    │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                    │
+│  ── Step 1: 选择外部系统 ──                                                                       │
+│  外部系统: [VK OAuth ▾]   系统类型: 社媒   连通状态: ●正常   端点数: 4                              │
+│  端点编码: [vk.token ▾]  方法: POST   外部路径: /access_token   方向: [◉请求 ○响应 ○双向]         │
+│                                                                                                    │
+│  ── Step 2: 选择D7系统API ──                                                                      │
+│  API模块:  [认证管理 ▾]   D7端点:  [POST /api/v1/auth/vk-login ▾]                                  │
+│  方法: POST               D7路径: /api/v1/auth/vk-login   描述: VK登录回调                          │
+│  回调端点: POST /api/v1/webhook/auth/vk  签名验证: [☑启用]  签名字段: [md5]                         │
+│                                                                                                    │
+│  ── Step 3: 字段映射配置 ──                                                                       │
+│  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ D7请求字段           转换方式      外部请求字段          类型      必填  默认值    操作         │  │
+│  │ code                 direct        code                  String    是    —        [编辑][删除] │  │
+│  │ state                direct        state                 String    是    —        [编辑][删除] │  │
+│  │ device_id            direct        device_id             String    否    ""       [编辑][删除] │  │
+│  │ [+ 添加请求字段映射]                                                                          │  │
+│  ├──────────────────────────────────────────────────────────────────────────────────────────────┤  │
+│  │ D7响应字段           转换方式      外部响应字段          类型      必填  默认值    操作         │  │
+│  │ access_token         direct        access_token          String    是    —        [编辑][删除] │  │
+│  │ expires_in           direct        expires_in            Number    是    3600     [编辑][删除] │  │
+│  │ user_id              direct        user_id               String    是    —        [编辑][删除] │  │
+│  │ refresh_token        direct        refresh_token        String    否    —        [编辑][删除] │  │
+│  │ [+ 添加响应字段映射]                                                                          │  │
+│  ├──────────────────────────────────────────────────────────────────────────────────────────────┤  │
+│  │ D7错误码             外部错误码     外部错误消息           处理方式           操作              │  │
+│  │ 40101                401            invalid_client       显示"VK授权失效"   [编辑][删除]      │  │
+│  │ 40102                403            access_denied        显示"用户拒绝授权" [编辑][删除]      │  │
+│  │ 50002                500            internal_error       显示"VK服务异常"   [编辑][删除]      │  │
+│  │ [+ 添加错误码映射]                                                                            │  │
+│  └──────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                                    │
+│  转换方式: [◉direct直传 ○value_map值映射 ○type_convert类型转换 ○func函数转换 ○concat拼接 ○calc计算] │
+│  缓存策略: [◉不缓存 ○5分钟 ○1小时 ○1天]   超时时间: [10]秒   重试次数: [3]次                       │
+│  熔断阈值: [5]次/分钟   熔断恢复: [30]秒    状态: [◉启用 ○禁用]                                    │
+│  映射名称: [VK登录-Token端点映射]           备注: [VK OAuth授权获取Token]                          │
+│                                                                                                    │
+│  [保存配置] → 保存后自动返回端点映射总览列表, 新配置以高亮显示在对应系统分组下                        │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<h4>可视化界面 — 新增渠道API配置页</h4>
+<div class="ui-mock">
+<div class="mock-toolbar">
+<span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+<span class="mock-title">外部系统管理 / 端点映射 / 新增渠道API配置</span>
+</div>
+<div class="mock-body" style="padding: 20px;">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+<h3 style="margin:0;font-size:18px;color:#1a1f36;">新增渠道API映射配置</h3>
+<div>
+<button style="padding:8px 20px;background:#635bff;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;margin-right:8px;">测试连通</button>
+<button style="padding:8px 20px;background:#635bff;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;margin-right:8px;">保存配置</button>
+<button style="padding:8px 20px;background:#fff;color:#6b7c93;border:1px solid #cdd3df;border-radius:6px;font-size:14px;cursor:pointer;">取消</button>
+</div>
+</div>
+
+<div style="background:#f6f9fc;border:1px solid #e3e8ee;border-radius:8px;padding:16px 20px;margin-bottom:20px;">
+<div style="font-size:14px;font-weight:600;color:#1a1f36;margin-bottom:12px;">Step 1 — 选择外部系统端点</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">外部系统</label>
+<select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>VK OAuth</option><option>Telegram Bot</option><option>OK OAuth</option><option>ЮMoney</option><option>QIWI</option><option>СберБанк</option><option>PayPal</option><option>SMS.ru</option><option>CDEK</option><option>Google翻译</option></select>
+</div>
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">端点编码</label>
+<select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>vk.token (POST /access_token)</option><option>vk.auth (GET /authorize)</option><option>vk.user (GET /users.get)</option></select>
+</div>
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">方法 / 路径</label>
+<input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="POST /access_token" readonly>
+</div>
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">映射方向</label>
+<select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>双向(请求+响应)</option><option>仅请求</option><option>仅响应</option></select>
+</div>
+</div>
+</div>
+
+<div style="background:#f6f9fc;border:1px solid #e3e8ee;border-radius:8px;padding:16px 20px;margin-bottom:20px;">
+<div style="font-size:14px;font-weight:600;color:#1a1f36;margin-bottom:12px;">Step 2 — 选择D7系统API</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">API模块</label>
+<select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>认证管理</option><option>订单管理</option><option>商品管理</option><option>支付管理</option><option>物流管理</option><option>通知管理</option></select>
+</div>
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">D7 API端点</label>
+<select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>POST /api/v1/auth/vk-login</option><option>POST /api/v1/auth/telegram-login</option><option>POST /api/v1/auth/ok-login</option></select>
+</div>
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">方法 / 路径</label>
+<input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="POST /api/v1/auth/vk-login" readonly>
+</div>
+<div>
+<label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">回调端点</label>
+<input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="POST /api/v1/webhook/auth/vk" readonly>
+</div>
+</div>
+</div>
+
+<div style="background:#f6f9fc;border:1px solid #e3e8ee;border-radius:8px;padding:16px 20px;margin-bottom:20px;">
+<div style="font-size:14px;font-weight:600;color:#1a1f36;margin-bottom:12px;">Step 3 — 字段映射配置</div>
+
+<div style="margin-bottom:16px;">
+<div style="font-size:13px;font-weight:600;color:#4f566b;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #635bff;">请求字段映射</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;">
+<thead><tr style="background:#eef1f6;"><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">D7请求字段</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">转换方式</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">外部请求字段</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">类型</th><th style="padding:8px;text-align:center;border:1px solid #e3e8ee;">必填</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">默认值</th><th style="padding:8px;text-align:center;border:1px solid #e3e8ee;">操作</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="code"></td><td style="padding:8px;border:1px solid #e3e8ee;"><select style="border:none;font-size:12px;"><option>direct</option><option>value_map</option><option>type_convert</option></select></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="code"></td><td style="padding:8px;border:1px solid #e3e8ee;">String</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;color:#635bff;">是</td><td style="padding:8px;border:1px solid #e3e8ee;">—</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;"><span style="color:#635bff;cursor:pointer;">编辑</span> <span style="color:#e74c3c;cursor:pointer;">删除</span></td></tr>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="state"></td><td style="padding:8px;border:1px solid #e3e8ee;"><select style="border:none;font-size:12px;"><option>direct</option></select></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="state"></td><td style="padding:8px;border:1px solid #e3e8ee;">String</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;color:#635bff;">是</td><td style="padding:8px;border:1px solid #e3e8ee;">—</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;"><span style="color:#635bff;cursor:pointer;">编辑</span> <span style="color:#e74c3c;cursor:pointer;">删除</span></td></tr>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;" colspan="7"><span style="color:#635bff;cursor:pointer;font-size:12px;">+ 添加请求字段映射</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-bottom:16px;">
+<div style="font-size:13px;font-weight:600;color:#4f566b;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #00d4ff;">响应字段映射</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;">
+<thead><tr style="background:#eef1f6;"><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">D7响应字段</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">转换方式</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">外部响应字段</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">类型</th><th style="padding:8px;text-align:center;border:1px solid #e3e8ee;">必填</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">默认值</th><th style="padding:8px;text-align:center;border:1px solid #e3e8ee;">操作</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="access_token"></td><td style="padding:8px;border:1px solid #e3e8ee;"><select style="border:none;font-size:12px;"><option>direct</option></select></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="access_token"></td><td style="padding:8px;border:1px solid #e3e8ee;">String</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;color:#635bff;">是</td><td style="padding:8px;border:1px solid #e3e8ee;">—</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;"><span style="color:#635bff;cursor:pointer;">编辑</span> <span style="color:#e74c3c;cursor:pointer;">删除</span></td></tr>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="expires_in"></td><td style="padding:8px;border:1px solid #e3e8ee;"><select style="border:none;font-size:12px;"><option>type_convert</option></select></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="expires_in"></td><td style="padding:8px;border:1px solid #e3e8ee;">Number</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;color:#635bff;">是</td><td style="padding:8px;border:1px solid #e3e8ee;">3600</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;"><span style="color:#635bff;cursor:pointer;">编辑</span> <span style="color:#e74c3c;cursor:pointer;">删除</span></td></tr>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="user_id"></td><td style="padding:8px;border:1px solid #e3e8ee;"><select style="border:none;font-size:12px;"><option>direct</option></select></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="user_id"></td><td style="padding:8px;border:1px solid #e3e8ee;">String</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;color:#635bff;">是</td><td style="padding:8px;border:1px solid #e3e8ee;">—</td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;"><span style="color:#635bff;cursor:pointer;">编辑</span> <span style="color:#e74c3c;cursor:pointer;">删除</span></td></tr>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;" colspan="7"><span style="color:#635bff;cursor:pointer;font-size:12px;">+ 添加响应字段映射</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div>
+<div style="font-size:13px;font-weight:600;color:#4f566b;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #e74c3c;">错误码映射</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;">
+<thead><tr style="background:#eef1f6;"><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">D7错误码</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">外部错误码</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">外部错误消息</th><th style="padding:8px;text-align:left;border:1px solid #e3e8ee;">处理方式</th><th style="padding:8px;text-align:center;border:1px solid #e3e8ee;">操作</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="40101"></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="401"></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="invalid_client"></td><td style="padding:8px;border:1px solid #e3e8ee;"><input style="width:100%;border:none;font-size:12px;" value="显示VK授权失效"></td><td style="padding:8px;border:1px solid #e3e8ee;text-align:center;"><span style="color:#635bff;cursor:pointer;">编辑</span> <span style="color:#e74c3c;cursor:pointer;">删除</span></td></tr>
+<tr><td style="padding:8px;border:1px solid #e3e8ee;" colspan="5"><span style="color:#635bff;cursor:pointer;font-size:12px;">+ 添加错误码映射</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="background:#f6f9fc;border:1px solid #e3e8ee;border-radius:8px;padding:16px 20px;">
+<div style="font-size:14px;font-weight:600;color:#1a1f36;margin-bottom:12px;">高级配置</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">缓存策略</label><select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>不缓存</option><option>5分钟</option><option>1小时</option><option>1天</option></select></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">超时时间(秒)</label><input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="10"></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">重试次数</label><input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="3"></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">熔断阈值(次/分)</label><input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="5"></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">熔断恢复(秒)</label><input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="30"></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">映射名称</label><input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="VK登录-Token端点映射"></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">状态</label><select style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;"><option>启用</option><option>禁用</option></select></div>
+<div><label style="font-size:12px;color:#6b7c93;display:block;margin-bottom:4px;">备注</label><input style="width:100%;padding:8px;border:1px solid #cdd3df;border-radius:4px;font-size:13px;" value="VK OAuth授权获取Token"></div>
+</div>
+</div>
+</div>
+</div>
+
 <h4>页面布局 — 端点字段映射详情页（以ЮMoney创建支付为例）</h4>
 <div class="card">
 <pre>
@@ -9037,6 +9201,14 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <tr><td>预置端点模板</td><td>/api/v1/admin/external-systems/{id}/endpoint-templates</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
 <tr><td>导入端点模板</td><td>/api/v1/admin/external-systems/{id}/endpoint-templates/import</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
 <tr><td>外部系统Webhook回调</td><td>/api/v1/webhook/external/{systemCode}/{endpointCode}</td><td><span class="badge-tag badge-post">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>D7 API模块列表</td><td>/api/v1/admin/external-systems/d7-api-modules</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:[{module:"auth",endpoints:[{method,path,desc}]}]}</td></tr>
+<tr><td>可用外部端点列表</td><td>/api/v1/admin/external-systems/{id}/available-endpoints</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:[{code,method,path,direction,status}]}</td></tr>
+<tr><td>新增渠道API映射</td><td>/api/v1/admin/external-systems/channel-mappings</td><td><span class="badge-tag badge-post">POST</span></td><td>{externalSystemId,externalEndpointCode,d7ApiModule,d7ApiPath,direction,requestMappings[],responseMappings[],errorMappings[],cacheStrategy,timeout,retryCount,circuitThreshold,circuitRecovery,name,remark,status}</td><td>{code,data:{id,externalSystem,externalEndpoint,d7ApiPath,direction,mappingCount,status}}</td></tr>
+<tr><td>渠道API映射列表</td><td>/api/v1/admin/external-systems/channel-mappings</td><td><span class="badge-tag badge-get">GET</span></td><td>page,size,externalSystemId,d7ApiModule,direction,status,keyword</td><td>{code,data:{list[],total}}</td></tr>
+<tr><td>渠道API映射详情</td><td>/api/v1/admin/external-systems/channel-mappings/{id}</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{id,externalSystem,externalEndpoint,d7ApiModule,d7ApiPath,direction,requestMappings[],responseMappings[],errorMappings[],cacheStrategy,timeout,retryCount,circuitThreshold,circuitRecovery,name,remark,status}}</td></tr>
+<tr><td>更新渠道API映射</td><td>/api/v1/admin/external-systems/channel-mappings/{id}</td><td><span class="badge-tag badge-put">PUT</span></td><td>{direction,requestMappings[],responseMappings[],errorMappings[],cacheStrategy,timeout,retryCount,circuitThreshold,circuitRecovery,name,remark,status}</td><td>{code,data:{id}}</td></tr>
+<tr><td>删除渠道API映射</td><td>/api/v1/admin/external-systems/channel-mappings/{id}</td><td><span class="badge-tag badge-delete">DELETE</span></td><td>—</td><td>{code,data:{id}}</td></tr>
+<tr><td>测试渠道API映射</td><td>/api/v1/admin/external-systems/channel-mappings/{id}/test</td><td><span class="badge-tag badge-post">POST</span></td><td>{testData?}</td><td>{code,data:{requestSent,responseReceived,mappedResult,success,durationMs}}</td></tr>
 <tr><td>映射总览列表</td><td>/api/v1/admin/api-mappings</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
 <tr><td>映射统计概览</td><td>/api/v1/admin/api-mappings/stats</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{...}}</td></tr>
 <tr><td>映射详情</td><td>/api/v1/admin/api-mappings/{id}</td><td><span class="badge-tag badge-">GET</span></td><td>id(path)</td><td>{code,data:{...}}</td></tr>
@@ -9560,6 +9732,11 @@ sequenceDiagram
 <tr><td>端点字段映射详情</td><td>/admin/external-systems/:id/endpoints/:epId/mappings</td><td>GET/PUT /admin/external-systems/{id}/endpoints/{epId}/mappings</td></tr>
 <tr><td>端点连通性测试</td><td>/admin/external-systems/:id/endpoints/:epId/test</td><td>POST /admin/external-systems/{id}/endpoints/{epId}/test</td></tr>
 <tr><td>端点映射预览</td><td>—（弹窗）</td><td>POST /admin/external-systems/{id}/endpoints/{epId}/preview</td></tr>
+<tr><td>新增渠道API配置</td><td>/admin/external-systems/channel-mappings/new</td><td>GET /admin/external-systems/d7-api-modules, GET /admin/external-systems/{id}/available-endpoints, POST /admin/external-systems/channel-mappings</td></tr>
+<tr><td>渠道API映射列表</td><td>/admin/external-systems/channel-mappings</td><td>GET /admin/external-systems/channel-mappings</td></tr>
+<tr><td>渠道API映射详情</td><td>/admin/external-systems/channel-mappings/:id</td><td>GET /admin/external-systems/channel-mappings/{id}</td></tr>
+<tr><td>编辑渠道API映射</td><td>/admin/external-systems/channel-mappings/:id/edit</td><td>GET /admin/external-systems/channel-mappings/{id}, PUT /admin/external-systems/channel-mappings/{id}</td></tr>
+<tr><td>测试渠道API映射</td><td>—（弹窗）</td><td>POST /admin/external-systems/channel-mappings/{id}/test</td></tr>
 <tr><td>端点批量操作</td><td>—</td><td>PUT /admin/external-systems/endpoints/batch</td></tr>
 <tr><td>预置端点模板</td><td>—</td><td>GET /admin/external-systems/{id}/endpoint-templates</td></tr>
 <tr><td>导入端点模板</td><td>—</td><td>POST /admin/external-systems/{id}/endpoint-templates/import</td></tr>
