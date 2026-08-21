@@ -7365,6 +7365,171 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 </table>
 </div>
 <callout class="callout">高并发核心原则：网关限流防洪水、Redis 预扣防超卖、幂等键防重复、异步队列削峰填谷、熔断降级保核心。抽奖/下单/提现等关键操作必须经过 Redis 分布式锁 + 幂等校验。</callout>
+
+<h3>9.3 i18n国际化规格</h3>
+<p>系统支持三语言切换（俄语ru / 中文zh / 英语en），默认俄语。用户可在个人中心→语言设置中切换，选择后存入localStorage和user.lang字段。</p>
+
+<h4>9.3.1 语言切换策略</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>策略</th><th>实现方式</th></tr></thead>
+<tbody>
+<tr><td>检测顺序</td><td>URL参数(?lang=) > localStorage('lang') > 浏览器navigator.language > 默认'ru'</td></tr>
+<tr><td>切换方式</td><td>调用i18n.global.locale.value = 'xx' + localStorage.setItem('lang','xx') + PUT /account/profile {lang}</td></tr>
+<tr><td>持久化</td><td>localStorage即时生效, user.lang字段后台持久化, 下次登录自动恢复</td></tr>
+<tr><td>请求头传递</td><td>axios请求拦截器注入 X-Lang: ru|zh|en, 后端按此返回对应语言的消息</td></tr>
+<tr><td>回退策略</td><td>翻译键不存在时回退到俄语, 俄语不存在时回退到键名本身</td></tr>
+<tr><td>日期格式</td><td>ru: DD.MM.YYYY / zh: YYYY-MM-DD / en: MM/DD/YYYY</td></tr>
+<tr><td>金额显示</td><td>ru: 1 299,00 ₽ / zh: ¥1,299.00 / en: $1,299.00</td></tr>
+<tr><td>数字格式</td><td>ru: 空格作千分符, 逗号小数 / zh,en: 逗号千分, 句点小数</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>9.3.2 翻译键命名规范</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>命名模式</th><th>示例</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>模块.页面.元素</td><td>member.product.addToCart</td><td>会员端-商品页-加入购物车按钮</td></tr>
+<tr><td>模块.页面.placeholder</td><td>auth.login.phonePlaceholder</td><td>认证-登录-手机号占位符</td></tr>
+<tr><td>模块.页面.toast</td><td>order.detail.cancelSuccess</td><td>订单-详情-取消成功Toast</td></tr>
+<tr><td>模块.页面.label</td><td>alliance.commission.total</td><td>分销-佣金-总佣金标签</td></tr>
+<tr><td>模块.页面.dialog</td><td>admin.product.deleteConfirm</td><td>后台-商品-删除确认弹窗</td></tr>
+<tr><td>common.*</td><td>common.confirm, common.cancel, common.save</td><td>通用按钮/操作文案</td></tr>
+<tr><td>error.*</td><td>error.E40010, error.E42901</td><td>按错误码命名的错误消息</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>9.3.3 核心翻译键值表</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>翻译键</th><th>俄语(ru)</th><th>中文(zh)</th><th>英语(en)</th></tr></thead>
+<tbody>
+<tr><td>common.confirm</td><td>Подтвердить</td><td>确认</td><td>Confirm</td></tr>
+<tr><td>common.cancel</td><td>Отмена</td><td>取消</td><td>Cancel</td></tr>
+<tr><td>common.save</td><td>Сохранить</td><td>保存</td><td>Save</td></tr>
+<tr><td>common.delete</td><td>Удалить</td><td>删除</td><td>Delete</td></tr>
+<tr><td>common.search</td><td>Поиск</td><td>搜索</td><td>Search</td></tr>
+<tr><td>common.loading</td><td>Загрузка...</td><td>加载中...</td><td>Loading...</td></tr>
+<tr><td>common.noData</td><td>Нет данных</td><td>暂无数据</td><td>No data</td></tr>
+<tr><td>auth.login.title</td><td>Вход в систему</td><td>登录</td><td>Login</td></tr>
+<tr><td>auth.login.phonePlaceholder</td><td>Введите телефон (+7)</td><td>请输入手机号(+7)</td><td>Enter phone (+7)</td></tr>
+<tr><td>auth.register.title</td><td>Регистрация</td><td>注册</td><td>Register</td></tr>
+<tr><td>member.product.addToCart</td><td>В корзину</td><td>加入购物车</td><td>Add to cart</td></tr>
+<tr><td>member.product.buyNow</td><td>Купить сейчас</td><td>立即购买</td><td>Buy now</td></tr>
+<tr><td>member.cart.title</td><td>Корзина</td><td>购物车</td><td>Shopping cart</td></tr>
+<tr><td>member.cart.total</td><td>Итого</td><td>合计</td><td>Total</td></tr>
+<tr><td>member.cart.checkout</td><td>Оформить заказ</td><td>结算</td><td>Checkout</td></tr>
+<tr><td>member.order.pendingPayment</td><td>Ожидает оплаты</td><td>待支付</td><td>Pending payment</td></tr>
+<tr><td>member.order.paid</td><td>Оплачен</td><td>已支付</td><td>Paid</td></tr>
+<tr><td>member.order.shipped</td><td>Отправлен</td><td>已发货</td><td>Shipped</td></tr>
+<tr><td>member.order.confirmed</td><td>Получен</td><td>已签收</td><td>Delivered</td></tr>
+<tr><td>member.order.cancelled</td><td>Отменён</td><td>已取消</td><td>Cancelled</td></tr>
+<tr><td>member.order.refunding</td><td>Возврат средств</td><td>退款中</td><td>Refunding</td></tr>
+<tr><td>member.order.refunded</td><td>Возвращено</td><td>已退款</td><td>Refunded</td></tr>
+<tr><td>alliance.dashboard.totalCommission</td><td>Общая комиссия</td><td>总佣金</td><td>Total commission</td></tr>
+<tr><td>alliance.dashboard.teamSize</td><td>Размер команды</td><td>团队人数</td><td>Team size</td></tr>
+<tr><td>alliance.withdrawal.amount</td><td>Сумма вывода</td><td>提现金额</td><td>Withdrawal amount</td></tr>
+<tr><td>alliance.withdrawal.submit</td><td>Запросить вывод</td><td>申请提现</td><td>Request withdrawal</td></tr>
+<tr><td>admin.product.onShelf</td><td>В продаже</td><td>上架</td><td>On shelf</td></tr>
+<tr><td>admin.product.offShelf</td><td>Снят с продажи</td><td>下架</td><td>Off shelf</td></tr>
+<tr><td>admin.order.ship</td><td>Отправить</td><td>发货</td><td>Ship</td></tr>
+<tr><td>error.E40010</td><td>Недостаточно товара</td><td>库存不足</td><td>Out of stock</td></tr>
+<tr><td>error.E42901</td><td>Слишком много запросов</td><td>操作过于频繁</td><td>Too many requests</td></tr>
+<tr><td>error.E40100</td><td>Не авторизован</td><td>请先登录</td><td>Not authenticated</td></tr>
+<tr><td>error.E40300</td><td>Нет доступа</td><td>无权限</td><td>Forbidden</td></tr>
+<tr><td>error.E40402</td><td>Не найдено</td><td>内容不存在</td><td>Not found</td></tr>
+<tr><td>error.E50002</td><td>Системная ошибка</td><td>系统繁忙</td><td>System error</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>9.4 日志规范</h3>
+<h4>9.4.1 日志级别与用途</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>级别</th><th>用途</th><th>示例</th><th>存储</th></tr></thead>
+<tbody>
+<tr><td>ERROR</td><td>系统异常/未捕获错误/外部服务失败</td><td>支付回调验签失败, 数据库连接超时</td><td>文件+ELK+告警</td></tr>
+<tr><td>WARN</td><td>可预期的异常/降级触发/限流命中</td><td>Redis降级直查DB, 熔断器打开</td><td>文件+ELK</td></tr>
+<tr><td>INFO</td><td>关键业务操作记录/状态变更</td><td>用户注册成功, 订单状态流转, 提现审核通过</td><td>文件+ELK</td></tr>
+<tr><td>DEBUG</td><td>开发调试/详细参数/SQL语句</td><td>请求参数dump, 缓存命中/未命中</td><td>仅开发环境</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>9.4.2 日志格式（JSON结构化）</h4>
+<div class="card">
+<pre class="code-block">
+// 日志JSON格式 (pino/winston)
+{
+  "timestamp": "2026-08-21T12:00:00.000Z",
+  "level": "info",
+  "service": "d7-api",
+  "traceId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "userId": 100,
+  "module": "order",
+  "action": "createOrder",
+  "message": "订单创建成功",
+  "details": {
+    "orderNo": "ORD-0821-001",
+    "amount": 299.00,
+    "items": 2
+  },
+  "duration": 45,
+  "ip": "192.168.1.100",
+  "userAgent": "Mozilla/5.0..."
+}
+
+// 访问日志 (Nginx + 应用层)
+{
+  "timestamp": "2026-08-21T12:00:00.000Z",
+  "method": "POST",
+  "path": "/api/v1/member/orders",
+  "status": 200,
+  "duration": 45,
+  "traceId": "a1b2c3d4-...",
+  "userId": 100,
+  "ip": "192.168.1.100",
+  "requestSize": 256,
+  "responseSize": 512
+}
+</pre>
+</div>
+
+<h4>9.4.3 敏感信息脱敏规则</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>字段</th><th>脱敏规则</th><th>示例</td></tr></thead>
+<tbody>
+<tr><td>手机号</td><td>保留前3后4</td><td>+712****6789</td></tr>
+<tr><td>密码/支付密码</td><td>完全隐藏</td><td>******</td></tr>
+<tr><td>银行卡号</td><td>保留后4位</td><td>**** **** **** 1234</td></tr>
+<tr><td>身份证号</td><td>保留前6后4</td><td>123456********1234</td></tr>
+<tr><td>邮箱</td><td>用户名保留首字符</td><td>i****@mail.ru</td></tr>
+<tr><td>JWT Token</td><td>保留前8后8</td><td>eyJhbGci...x4EqJmx</td></tr>
+<tr><td>API Key</td><td>保留前4后4</td><td>ghp_...EJmx</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>9.4.4 日志存储与轮转</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>配置</th></tr></thead>
+<tbody>
+<tr><td>日志目录</td><td>/var/log/d7/</td></tr>
+<tr><td>文件分割</td><td>按日分割, 文件名: app-YYYY-MM-DD.log</td></tr>
+<tr><td>最大文件大小</td><td>100MB, 超过后自动滚动</td></tr>
+<tr><td>保留天数</td><td>ERROR: 90天, WARN: 60天, INFO: 30天, DEBUG: 不存储</td></tr>
+<tr><td>ELK采集</td><td>Filebeat → Logstash → Elasticsearch → Kibana</td></tr>
+<tr><td>告警规则</td><td>ERROR > 10条/分钟 → 钉钉/Telegram告警</td></tr>
+<tr><td>TraceId透传</td><td>网关生成 → Header X-Trace-Id → 日志贯穿全链路 → Kibana可追踪</td></tr>
+</tbody>
+</table>
+</div>
 </section>
 
 <!-- Chapter 10: 边界与异常处理 -->
@@ -9848,6 +10013,219 @@ volumes:
 <tr><td>灰度回滚</td><td>灰度版本异常</td><td>停止灰度流量 + 全量切回稳定版本</td><td>~10秒</td></tr>
 </tbody>
 </table>
+</div>
+
+<h3>18.6 Git分支策略与Commit规范</h3>
+<h4>18.6.1 分支模型</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>分支名</th><th>用途</th><th>来源</th><th>合并目标</th><th>保护规则</th></tr></thead>
+<tbody>
+<tr><td>master</td><td>生产环境代码, 只接受PR合并</td><td>—</td><td>—</td><td>必须2人review, CI全绿, 禁止force push</td></tr>
+<tr><td>staging</td><td>预发布环境, 测试验证</td><td>master</td><td>master</td><td>需1人review, CI全绿</td></tr>
+<tr><td>develop</td><td>开发集成分支</td><td>master</td><td>staging</td><td>需1人review</td></tr>
+<tr><td>feature/*</td><td>功能开发分支</td><td>develop</td><td>develop</td><td>命名: feature/模块-描述</td></tr>
+<tr><td>fix/*</td><td>Bug修复分支</td><td>develop/master</td><td>develop/master</td><td>命名: fix/模块-问题描述</td></tr>
+<tr><td>hotfix/*</td><td>生产紧急修复</td><td>master</td><td>master+develop</td><td>命名: hotfix/问题描述</td></tr>
+<tr><td>release/*</td><td>发布准备分支</td><td>develop</td><td>master+develop</td><td>命名: release/v版本号</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>18.6.2 分支命名规范</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>格式</th><th>示例</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>feature/{模块}-{简述}</td><td>feature/order-refund-flow</td><td>新功能开发</td></tr>
+<tr><td>fix/{模块}-{问题}</td><td>fix/cart-quantity-error</td><td>Bug修复</td></tr>
+<tr><td>hotfix/{问题}</td><td>hotfix/payment-callback-fail</td><td>生产紧急修复</td></tr>
+<tr><td>release/v{版本}</td><td>release/v1.2.0</td><td>版本发布准备</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>18.6.3 Commit Message规范 (Conventional Commits)</h4>
+<div class="card">
+<pre class="code-block">
+# 格式: <type>(<scope>): <subject>
+# body (可选)
+# footer (可选)
+
+# ─── type 类型 ───
+feat:     新功能          feat(order): 添加退款流程
+fix:      Bug修复         fix(cart): 修复数量更新错误
+docs:     文档更新         docs(api): 补充API Schema
+style:    代码格式         style(all): 统一缩进为2空格
+refactor: 重构(无功能变化) refactor(auth): 拆分Token服务
+perf:     性能优化         perf(order): 批量查询优化
+test:     测试             test(order): 添加订单流转测试
+chore:    构建/工具链      chore(deps): 升级Vue到3.5
+
+# ─── scope 模块(可选) ───
+auth, order, product, cart, coupon, lottery, commission, withdrawal, member, admin, alliance, i18n, config
+
+# ─── 示例 ───
+feat(order): 添加退款流程支持
+fix(cart): 修复数量更新时未同步Redis的问题
+refactor(auth): 拆分Token服务为独立模块, 提升可测试性
+test(lottery): 添加抽奖概率验证和并发安全测试
+perf(order): 批量查询优化, 减少N+1查询
+chore(deps): 升级Vue到3.5.0, Element Plus到2.8.0
+</pre>
+</div>
+
+<h4>18.6.4 PR (Pull Request) 规范</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>规则</th><th>要求</th></tr></thead>
+<tbody>
+<tr><td>标题</td><td>与Commit Message格式一致: type(scope): subject</td></tr>
+<tr><td>描述</td><td>包含: 变更目的/涉及模块/测试方式/影响范围</td></tr>
+<tr><td>大小</td><td>单个PR不超过500行diff, 大功能拆分多个PR</td></tr>
+<tr><td>审查</td><td>master需2人approve, 其他分支需1人approve</td></tr>
+<tr><td>CI</td><td>lint+type-check+unit-test必须全绿</td></tr>
+<tr><td>冲突</td><td>合并前必须rebase到目标分支最新, 禁止merge commit</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>18.7 代码规范与工具链配置</h3>
+<h4>18.7.1 ESLint配置</h4>
+<div class="card">
+<pre class="code-block">
+// eslint.config.js (Flat Config)
+import js from '@eslint/js'
+import vue from 'eslint-plugin-vue'
+import ts from '@typescript-eslint/eslint-plugin'
+
+export default [
+  js.configs.recommended,
+  ...vue.configs['flat/recommended'],
+  {
+    files: ['**/*.{ts,vue}'],
+    languageOptions: {
+      parser: '@typescript-eslint/parser',
+      parserOptions: { sourceType: 'module', ecmaVersion: 2022 }
+    },
+    plugins: { '@typescript-eslint': ts },
+    rules: {
+      // Vue
+      'vue/multi-word-component-names': 'off',
+      'vue/max-attributes-per-line': ['warn', { singleline: 3 }],
+      // TypeScript
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      // 通用
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-debugger': 'error',
+      'prefer-const': 'error',
+      'eqeqeq': ['error', 'always'],
+    }
+  },
+  {
+    ignores: ['dist/**', 'node_modules/**', '*.config.js']
+  }
+]
+</pre>
+</div>
+
+<h4>18.7.2 Prettier配置</h4>
+<div class="card">
+<pre class="code-block">
+// .prettierrc
+{
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "vueIndentScriptAndStyle": false,
+  "htmlWhitespaceSensitivity": "css"
+}
+</pre>
+</div>
+
+<h4>18.7.3 EditorConfig</h4>
+<div class="card">
+<pre class="code-block">
+# .editorconfig
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+</pre>
+</div>
+
+<h4>18.7.4 前端项目目录结构</h4>
+<div class="card">
+<pre class="code-block">
+d7-frontend/
+├── public/
+│   └── favicon.ico
+├── src/
+│   ├── api/                    # API Service层 (§27.7)
+│   │   ├── auth.ts
+│   │   ├── member/
+│   │   ├── alliance/
+│   │   └── admin/
+│   ├── assets/                 # 静态资源
+│   │   ├── images/
+│   │   └── styles/
+│   ├── components/             # 共享组件 (§27.5)
+│   │   ├── common/             # Button, Modal, Table等
+│   │   └── business/           # ProductCard, OrderCard等
+│   ├── composables/            # 组合式函数 (§27.8)
+│   │   ├── useOrder.ts
+│   │   ├── usePagination.ts
+│   │   ├── useCountdown.ts
+│   │   └── useFormDialog.ts
+│   ├── layouts/
+│   │   ├── MemberLayout.vue
+│   │   ├── AdminLayout.vue
+│   │   └── AllianceLayout.vue
+│   ├── router/                 # 路由 (§16)
+│   │   ├── routes.ts
+│   │   └── guard.ts
+│   ├── stores/                 # Pinia状态管理 (§27.6)
+│   │   ├── auth.ts
+│   │   ├── cart.ts
+│   │   └── order.ts
+│   ├── types/                  # TypeScript类型定义 (§29)
+│   │   └── dto.ts
+│   ├── utils/                   # 工具函数
+│   │   ├── format.ts           # 金额/日期格式化
+│   │   ├── validate.ts         # 校验函数
+│   │   └── request.ts          # 请求工具
+│   ├── views/
+│   │   ├── member/             # 会员端页面
+│   │   ├── admin/              # 后台页面
+│   │   └── auth/               # 认证页面
+│   ├── App.vue
+│   └── main.ts
+├── .env.development
+├── .env.production
+├── index.html
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── eslint.config.js
+</pre>
 </div>
 </section>
 
@@ -13446,6 +13824,158 @@ export function useFormDialog<T>(defaultForm: T) {
   }
 
   return { visible, form, formRef, open, close, validate }
+}
+</pre>
+</div>
+
+<h3>27.9 前端构建配置</h3>
+<h4>27.9.1 Vite配置</h4>
+<div class="card">
+<pre class="code-block">
+// vite.config.ts
+import { defineConfig, loadEnv } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { resolve } from 'path'
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd())
+
+  return {
+    plugins: [
+      vue(),
+      AutoImport({
+        imports: ['vue', 'vue-router', 'pinia'],
+        resolvers: [ElementPlusResolver()],
+        dts: 'src/types/auto-imports.d.ts',
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+        dts: 'src/types/components.d.ts',
+      }),
+    ],
+
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src'),
+      },
+    },
+
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/assets/styles/variables.scss" as *;`,
+        },
+      },
+    },
+
+    server: {
+      port: 5173,
+      proxy: {
+        '/api': {
+          target: env.VITE_API_PROXY_TARGET || 'http://localhost:3000',
+          changeOrigin: true,
+        },
+      },
+    },
+
+    build: {
+      target: 'es2020',
+      outDir: 'dist',
+      assetsDir: 'assets',
+      sourcemap: mode !== 'production',
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-vendor': ['vue', 'vue-router', 'pinia'],
+            'element-plus': ['element-plus'],
+            'echarts': ['echarts'],
+            'mermaid': ['mermaid'],
+          },
+        },
+      },
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: mode === 'production',
+          drop_debugger: true,
+        },
+      },
+    },
+  }
+})
+</pre>
+</div>
+
+<h4>27.9.2 TypeScript配置</h4>
+<div class="card">
+<pre class="code-block">
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client", "element-plus/global"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "src/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}
+</pre>
+</div>
+
+<h4>27.9.3 环境变量文件</h4>
+<div class="card">
+<pre class="code-block">
+# .env.development
+VITE_API_BASE_URL=/api/v1
+VITE_API_PROXY_TARGET=http://localhost:3000
+VITE_OSS_BASE_URL=http://localhost:9000
+VITE_MOCK_ENABLED=false
+
+# .env.production
+VITE_API_BASE_URL=https://api.d7.com/api/v1
+VITE_OSS_BASE_URL=https://oss.d7.com
+VITE_MOCK_ENABLED=false
+</pre>
+</div>
+
+<h4>27.9.4 package.json scripts</h4>
+<div class="card">
+<pre class="code-block">
+// package.json (scripts部分)
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/",
+    "type-check": "vue-tsc --noEmit",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:coverage": "vitest run --coverage"
+  }
 }
 </pre>
 </div>
