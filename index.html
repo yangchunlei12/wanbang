@@ -8342,25 +8342,25 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3>11.2.42 distributor（分销商主表）</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>字段</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+<thead><tr><th>字段名</th><th>类型</th><th>必填</th><th>说明</th><th>约束</th></tr></thead>
 <tbody>
-<tr><td>id</td><td>BIGINT</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
-<tr><td>user_id</td><td>BIGINT</td><td>关联用户ID</td><td>FK → user.id, UNIQUE</td></tr>
-<tr><td>distributor_code</td><td>VARCHAR(20)</td><td>分销码/邀请码</td><td>UNIQUE, 格式[A-Z0-9]{6,8}</td></tr>
-<tr><td>status</td><td>TINYINT</td><td>状态：1=正常, 2=冻结, 3=注销</td><td>DEFAULT 1</td></tr>
-<tr><td>level_id</td><td>BIGINT</td><td>分销等级ID</td><td>FK → member_level.id</td></tr>
-<tr><td>inviter_id</td><td>BIGINT</td><td>上级分销商ID</td><td>FK → distributor.id, NULL</td></tr>
-<tr><td>team_count</td><td>INT</td><td>团队总人数</td><td>DEFAULT 0</td></tr>
-<tr><td>pending_commission</td><td>DECIMAL(12,2)</td><td>待结算佣金</td><td>DEFAULT 0.00</td></tr>
-<tr><td>available_commission</td><td>DECIMAL(12,2)</td><td>可提现佣金</td><td>DEFAULT 0.00</td></tr>
-<tr><td>total_commission</td><td>DECIMAL(12,2)</td><td>累计佣金</td><td>DEFAULT 0.00</td></tr>
-<tr><td>total_withdrawn</td><td>DECIMAL(12,2)</td><td>已提现金额</td><td>DEFAULT 0.00</td></tr>
-<tr><td>application_id</td><td>BIGINT</td><td>入驻申请ID</td><td>FK → distributor_application.id</td></tr>
-<tr><td>approved_at</td><td>DATETIME</td><td>审核通过时间</td><td>NULL</td></tr>
-<tr><td>approved_by</td><td>BIGINT</td><td>审核人</td><td>FK → admin.id</td></tr>
-<tr><td>created_at</td><td>DATETIME</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
-<tr><td>updated_at</td><td>DATETIME</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
-<tr><td>deleted_at</td><td>DATETIME</td><td>软删除</td><td>NULL</td></tr>
+<tr><td>id</td><td>BIGINT</td><td>是</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
+<tr><td>user_id</td><td>BIGINT</td><td>是</td><td>关联用户ID</td><td>FK → user.id, UNIQUE</td></tr>
+<tr><td>distributor_code</td><td>VARCHAR(20)</td><td>是</td><td>分销码/邀请码</td><td>UNIQUE, 格式[A-Z0-9]{6,8}</td></tr>
+<tr><td>status</td><td>TINYINT</td><td>是</td><td>状态：1=正常, 2=冻结, 3=注销</td><td>DEFAULT 1</td></tr>
+<tr><td>level_id</td><td>BIGINT</td><td>是</td><td>分销等级ID</td><td>FK → member_level.id</td></tr>
+<tr><td>inviter_id</td><td>BIGINT</td><td>否</td><td>上级分销商ID</td><td>FK → distributor.id, NULL</td></tr>
+<tr><td>team_count</td><td>INT</td><td>是</td><td>团队总人数</td><td>DEFAULT 0</td></tr>
+<tr><td>pending_commission</td><td>DECIMAL(12,2)</td><td>是</td><td>待结算佣金</td><td>DEFAULT 0.00</td></tr>
+<tr><td>available_commission</td><td>DECIMAL(12,2)</td><td>是</td><td>可提现佣金</td><td>DEFAULT 0.00</td></tr>
+<tr><td>total_commission</td><td>DECIMAL(12,2)</td><td>是</td><td>累计佣金</td><td>DEFAULT 0.00</td></tr>
+<tr><td>total_withdrawn</td><td>DECIMAL(12,2)</td><td>是</td><td>已提现金额</td><td>DEFAULT 0.00</td></tr>
+<tr><td>application_id</td><td>BIGINT</td><td>是</td><td>入驻申请ID</td><td>FK → distributor_application.id</td></tr>
+<tr><td>approved_at</td><td>DATETIME</td><td>否</td><td>审核通过时间</td><td>NULL</td></tr>
+<tr><td>approved_by</td><td>BIGINT</td><td>是</td><td>审核人</td><td>FK → admin.id</td></tr>
+<tr><td>created_at</td><td>DATETIME</td><td>是</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
+<tr><td>updated_at</td><td>DATETIME</td><td>是</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
+<tr><td>deleted_at</td><td>DATETIME</td><td>否</td><td>软删除</td><td>NULL</td></tr>
 </tbody>
 </table>
 </div>
@@ -8369,19 +8369,19 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3>11.2.43 user_bank_card（用户银行卡）</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>字段</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+<thead><tr><th>字段名</th><th>类型</th><th>必填</th><th>说明</th><th>约束</th></tr></thead>
 <tbody>
-<tr><td>id</td><td>BIGINT</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
-<tr><td>user_id</td><td>BIGINT</td><td>用户ID</td><td>FK → user.id</td></tr>
-<tr><td>card_number_enc</td><td>VARCHAR(255)</td><td>银行卡号(AES-256加密)</td><td>NOT NULL</td></tr>
-<tr><td>last_four</td><td>VARCHAR(4)</td><td>卡号后四位</td><td>NOT NULL</td></tr>
-<tr><td>holder_name</td><td>VARCHAR(50)</td><td>持卡人姓名</td><td>NOT NULL</td></tr>
-<tr><td>bank_name</td><td>VARCHAR(100)</td><td>开户银行</td><td>NOT NULL</td></tr>
-<tr><td>expiry_date</td><td>VARCHAR(7)</td><td>有效期 MM/YY</td><td>NULL</td></tr>
-<tr><td>is_default</td><td>TINYINT</td><td>是否默认</td><td>DEFAULT 0</td></tr>
-<tr><td>created_at</td><td>DATETIME</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
-<tr><td>updated_at</td><td>DATETIME</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
-<tr><td>deleted_at</td><td>DATETIME</td><td>软删除</td><td>NULL</td></tr>
+<tr><td>id</td><td>BIGINT</td><td>是</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
+<tr><td>user_id</td><td>BIGINT</td><td>是</td><td>用户ID</td><td>FK → user.id</td></tr>
+<tr><td>card_number_enc</td><td>VARCHAR(255)</td><td>否</td><td>银行卡号(AES-256加密)</td><td>NOT NULL</td></tr>
+<tr><td>last_four</td><td>VARCHAR(4)</td><td>否</td><td>卡号后四位</td><td>NOT NULL</td></tr>
+<tr><td>holder_name</td><td>VARCHAR(50)</td><td>否</td><td>持卡人姓名</td><td>NOT NULL</td></tr>
+<tr><td>bank_name</td><td>VARCHAR(100)</td><td>否</td><td>开户银行</td><td>NOT NULL</td></tr>
+<tr><td>expiry_date</td><td>VARCHAR(7)</td><td>否</td><td>有效期 MM/YY</td><td>NULL</td></tr>
+<tr><td>is_default</td><td>TINYINT</td><td>否</td><td>是否默认</td><td>DEFAULT 0</td></tr>
+<tr><td>created_at</td><td>DATETIME</td><td>是</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
+<tr><td>updated_at</td><td>DATETIME</td><td>是</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
+<tr><td>deleted_at</td><td>DATETIME</td><td>否</td><td>软删除</td><td>NULL</td></tr>
 </tbody>
 </table>
 </div>
@@ -8390,17 +8390,17 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3>11.2.44 user_wallet（用户电子钱包）</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>字段</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+<thead><tr><th>字段名</th><th>类型</th><th>必填</th><th>说明</th><th>约束</th></tr></thead>
 <tbody>
-<tr><td>id</td><td>BIGINT</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
-<tr><td>user_id</td><td>BIGINT</td><td>用户ID</td><td>FK → user.id</td></tr>
-<tr><td>type</td><td>VARCHAR(20)</td><td>钱包类型：yoomoney/qiwi/paypal</td><td>NOT NULL</td></tr>
-<tr><td>account_enc</td><td>VARCHAR(255)</td><td>钱包账号(AES-256加密)</td><td>NOT NULL</td></tr>
-<tr><td>account_display</td><td>VARCHAR(50)</td><td>账号脱敏显示</td><td>NOT NULL</td></tr>
-<tr><td>is_default</td><td>TINYINT</td><td>是否默认</td><td>DEFAULT 0</td></tr>
-<tr><td>created_at</td><td>DATETIME</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
-<tr><td>updated_at</td><td>DATETIME</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
-<tr><td>deleted_at</td><td>DATETIME</td><td>软删除</td><td>NULL</td></tr>
+<tr><td>id</td><td>BIGINT</td><td>是</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
+<tr><td>user_id</td><td>BIGINT</td><td>是</td><td>用户ID</td><td>FK → user.id</td></tr>
+<tr><td>type</td><td>VARCHAR(20)</td><td>否</td><td>钱包类型：yoomoney/qiwi/paypal</td><td>NOT NULL</td></tr>
+<tr><td>account_enc</td><td>VARCHAR(255)</td><td>否</td><td>钱包账号(AES-256加密)</td><td>NOT NULL</td></tr>
+<tr><td>account_display</td><td>VARCHAR(50)</td><td>否</td><td>账号脱敏显示</td><td>NOT NULL</td></tr>
+<tr><td>is_default</td><td>TINYINT</td><td>否</td><td>是否默认</td><td>DEFAULT 0</td></tr>
+<tr><td>created_at</td><td>DATETIME</td><td>是</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
+<tr><td>updated_at</td><td>DATETIME</td><td>是</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
+<tr><td>deleted_at</td><td>DATETIME</td><td>否</td><td>软删除</td><td>NULL</td></tr>
 </tbody>
 </table>
 </div>
@@ -8409,20 +8409,20 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3>11.2.45 product_spec（商品规格/SKU）</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>字段</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+<thead><tr><th>字段名</th><th>类型</th><th>必填</th><th>说明</th><th>约束</th></tr></thead>
 <tbody>
-<tr><td>id</td><td>BIGINT</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
-<tr><td>product_id</td><td>BIGINT</td><td>商品ID</td><td>FK → product.id</td></tr>
-<tr><td>spec_name</td><td>VARCHAR(100)</td><td>规格名称(如:颜色/尺寸)</td><td>NOT NULL</td></tr>
-<tr><td>spec_value</td><td>VARCHAR(100)</td><td>规格值(如:红色/XL)</td><td>NOT NULL</td></tr>
-<tr><td>sku</td><td>VARCHAR(50)</td><td>SKU编码</td><td>UNIQUE</td></tr>
-<tr><td>price</td><td>DECIMAL(10,2)</td><td>规格价格</td><td>NOT NULL</td></tr>
-<tr><td>stock</td><td>INT</td><td>规格库存</td><td>DEFAULT 0</td></tr>
-<tr><td>product_weight</td><td>DECIMAL(8,3)</td><td>商品重量(kg)</td><td>NULL</td></tr>
-<tr><td>is_active</td><td>TINYINT</td><td>是否启用</td><td>DEFAULT 1</td></tr>
-<tr><td>created_at</td><td>DATETIME</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
-<tr><td>updated_at</td><td>DATETIME</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
-<tr><td>deleted_at</td><td>DATETIME</td><td>软删除</td><td>NULL</td></tr>
+<tr><td>id</td><td>BIGINT</td><td>是</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
+<tr><td>product_id</td><td>BIGINT</td><td>是</td><td>商品ID</td><td>FK → product.id</td></tr>
+<tr><td>spec_name</td><td>VARCHAR(100)</td><td>否</td><td>规格名称(如:颜色/尺寸)</td><td>NOT NULL</td></tr>
+<tr><td>spec_value</td><td>VARCHAR(100)</td><td>否</td><td>规格值(如:红色/XL)</td><td>NOT NULL</td></tr>
+<tr><td>sku</td><td>VARCHAR(50)</td><td>是</td><td>SKU编码</td><td>UNIQUE</td></tr>
+<tr><td>price</td><td>DECIMAL(10,2)</td><td>否</td><td>规格价格</td><td>NOT NULL</td></tr>
+<tr><td>stock</td><td>INT</td><td>是</td><td>规格库存</td><td>DEFAULT 0</td></tr>
+<tr><td>product_weight</td><td>DECIMAL(8,3)</td><td>否</td><td>商品重量(kg)</td><td>NULL</td></tr>
+<tr><td>is_active</td><td>TINYINT</td><td>是</td><td>是否启用</td><td>DEFAULT 1</td></tr>
+<tr><td>created_at</td><td>DATETIME</td><td>是</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
+<tr><td>updated_at</td><td>DATETIME</td><td>是</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
+<tr><td>deleted_at</td><td>DATETIME</td><td>否</td><td>软删除</td><td>NULL</td></tr>
 </tbody>
 </table>
 </div>
@@ -8431,18 +8431,18 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <h3>11.2.46 login_device（登录设备）</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th>字段</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+<thead><tr><th>字段名</th><th>类型</th><th>必填</th><th>说明</th><th>约束</th></tr></thead>
 <tbody>
-<tr><td>id</td><td>BIGINT</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
-<tr><td>user_id</td><td>BIGINT</td><td>用户ID</td><td>FK → user.id</td></tr>
-<tr><td>device_name</td><td>VARCHAR(100)</td><td>设备名称</td><td>NOT NULL</td></tr>
-<tr><td>browser</td><td>VARCHAR(100)</td><td>浏览器/客户端</td><td>NOT NULL</td></tr>
-<tr><td>ip_address</td><td>VARCHAR(45)</td><td>IP地址(IPv4/IPv6)</td><td>NOT NULL</td></tr>
-<tr><td>location</td><td>VARCHAR(100)</td><td>登录地点</td><td>NULL</td></tr>
-<tr><td>last_login_at</td><td>DATETIME</td><td>最后登录时间</td><td>NOT NULL</td></tr>
-<tr><td>is_current</td><td>TINYINT</td><td>是否当前设备</td><td>DEFAULT 0</td></tr>
-<tr><td>created_at</td><td>DATETIME</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
-<tr><td>updated_at</td><td>DATETIME</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
+<tr><td>id</td><td>BIGINT</td><td>是</td><td>主键</td><td>PK, AUTO_INCREMENT</td></tr>
+<tr><td>user_id</td><td>BIGINT</td><td>是</td><td>用户ID</td><td>FK → user.id</td></tr>
+<tr><td>device_name</td><td>VARCHAR(100)</td><td>否</td><td>设备名称</td><td>NOT NULL</td></tr>
+<tr><td>browser</td><td>VARCHAR(100)</td><td>否</td><td>浏览器/客户端</td><td>NOT NULL</td></tr>
+<tr><td>ip_address</td><td>VARCHAR(45)</td><td>否</td><td>IP地址(IPv4/IPv6)</td><td>NOT NULL</td></tr>
+<tr><td>location</td><td>VARCHAR(100)</td><td>否</td><td>登录地点</td><td>NULL</td></tr>
+<tr><td>last_login_at</td><td>DATETIME</td><td>否</td><td>最后登录时间</td><td>NOT NULL</td></tr>
+<tr><td>is_current</td><td>TINYINT</td><td>是</td><td>是否当前设备</td><td>DEFAULT 0</td></tr>
+<tr><td>created_at</td><td>DATETIME</td><td>是</td><td>创建时间</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
+<tr><td>updated_at</td><td>DATETIME</td><td>是</td><td>更新时间</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td></tr>
 </tbody>
 </table>
 </div>
@@ -9400,9 +9400,41 @@ sequenceDiagram
 </tbody>
 </table>
 </div>
-</section>
 
-<!-- Chapter 18: 部署架构 -->
+<h3>17.3 错误码处理逻辑</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>错误码</th><th>含义</th><th>前端处理</th><th>后端处理</th></tr></thead>
+<tbody>
+<tr><td>40041</td><td>库存不足/商品已售罄</td><td>Toast提示"库存不足",禁用购买按钮,刷新库存数</td><td>预检库存Redis原子扣减,失败返回库存余量,不创建订单</td></tr>
+<tr><td>40070</td><td>地址不存在</td><td>Toast提示"地址不存在",跳转地址管理页</td><td>查询address表,不存在直接返回404</td></tr>
+<tr><td>40071</td><td>地址数量超限(最多20条)</td><td>Toast提示"地址数量已达上限",禁用新增按钮</td><td>COUNT查询,超过20直接拒绝</td></tr>
+<tr><td>40072</td><td>默认地址重复设置</td><td>静默成功(幂等)</td><td>先UPDATE所有为非默认,再UPDATE目标为默认,事务包裹</td></tr>
+<tr><td>40080</td><td>运费计算失败(地区不支持)</td><td>Toast提示"该地区不支持配送",禁用提交按钮</td><td>查询shipping_template,无匹配region返回错误</td></tr>
+<tr><td>40081</td><td>运单不存在</td><td>Toast提示"运单不存在"</td><td>查询waybill表,不存在返回404</td></tr>
+<tr><td>40090</td><td>外部系统配置不存在</td><td>Toast提示"系统配置缺失",联系管理员</td><td>查询external_system_config,不存在直接返回</td></tr>
+<tr><td>40097</td><td>外部系统端点不存在</td><td>Toast提示"端点未配置"</td><td>查询external_system_endpoint表,不存在返回404</td></tr>
+<tr><td>40098</td><td>端点编码重复</td><td>Toast提示"端点编码冲突"</td><td>UNIQUE约束捕获DuplicateKey异常,返回409</td></tr>
+<tr><td>40099</td><td>端点映射配置不完整</td><td>Toast提示"映射配置缺失",跳转配置页</td><td>检查必填字段(d7_field,external_field),缺失返回422</td></tr>
+<tr><td>40100</td><td>端点依赖未满足</td><td>Toast提示"依赖端点未启用"</td><td>查询depends_on字段,依赖端点未enabled返回422</td></tr>
+<tr><td>40101</td><td>字段映射转换失败</td><td>Toast提示"数据转换异常,请联系管理员"</td><td>记录external_system_log,返回错误详情,不影响主流程</td></tr>
+<tr><td>40201</td><td>角色已存在</td><td>Toast提示"角色名称已存在",表单验证错误</td><td>查询role表name字段,存在则拒绝创建</td></tr>
+<tr><td>40202</td><td>权限配置无效</td><td>Toast提示"权限配置无效",高亮错误项</td><td>校验permission_code格式,不匹配返回400</td></tr>
+<tr><td>40203</td><td>审计日志查询条件无效</td><td>Toast提示"查询条件无效"</td><td>校验日期范围≤90天,action枚举值校验</td></tr>
+<tr><td>40204</td><td>支付密码错误(连续5次锁定)</td><td>Toast提示剩余次数,5次后跳转找回密码</td><td>Redis计数器 INCR,5次后TTL设为30分钟,锁定账号支付功能</td></tr>
+<tr><td>40205</td><td>支付密码已锁定</td><td>弹窗提示"支付功能已锁定,请30分钟后重试或重置密码"</td><td>检查Redis锁是否存在,存在返回锁定状态和剩余时间</td></tr>
+<tr><td>40901</td><td>状态冲突(重复操作)</td><td>静默忽略(幂等),不提示错误</td><td>乐观锁version校验,冲突时返回当前version供重试</td></tr>
+<tr><td>42901</td><td>请求过频(限流)</td><td>Toast提示"操作过于频繁,请稍后再试",禁用按钮3秒</td><td>令牌桶限流,Redis记录API调用频率,超限返回Retry-After头</td></tr>
+<tr><td>50001</td><td>服务器内部错误</td><td>Toast提示"系统繁忙,请稍后再试",5秒后自动重试1次</td><td>全局异常捕获,记录error_log,返回通用错误信息(不暴露堆栈)</td></tr>
+<tr><td>50002</td><td>数据库异常</td><td>Toast提示"系统繁忙",不做自动重试</td><td>捕获DB异常,连接超时重试1次,死锁回滚并记录,触发告警</td></tr>
+<tr><td>50003</td><td>Redis异常</td><td>静默降级(数据从DB获取),不提示用户</td><td>Redis不可用时降级到DB查询,记录warn_log,不影响主流程</td></tr>
+<tr><td>50004</td><td>消息队列异常</td><td>静默降级(同步处理),不提示用户</td><td>MQ不可用时降级为同步执行,记录warn_log,补偿任务定时重推</td></tr>
+<tr><td>50005</td><td>外部服务异常</td><td>Toast提示"第三方服务暂不可用"</td><td>熔断器半开状态,5秒超时,失败3次触发熔断,30秒后半开探测</td></tr>
+<tr><td>50301</td><td>服务降级中(熔断触发)</td><td>Toast提示"系统维护中,请稍后再试",禁用操作</td><td>熔断器Open状态,直接拒绝,30秒后半开探测,成功则Closed</td></tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="ch18">
 <h2>18. 部署架构</h2>
 <div class="card">
@@ -9978,6 +10010,9 @@ erDiagram
   USER ||--o{ PRIZE_RECORD : wins
   USER ||--o{ WITHDRAWAL : requests
   USER ||--o{ DISTRIBUTOR_APPLICATION : applies
+  USER ||--o{ LOGIN_DEVICE : registers
+  USER ||--o{ USER_BANK_CARD : owns
+  USER ||--o{ USER_WALLET : owns
   USER }o--|| MEMBER_LEVEL : belongs_to
   USER ||--o{ ORDER : "places(N)"
   ADDRESS ||--o{ ORDER : "ship_to(N)"
@@ -10010,6 +10045,38 @@ erDiagram
     varchar name
     decimal discount_rate
     int min_points
+  }
+  CART {
+    bigint id PK
+    bigint user_id FK
+    bigint product_id FK
+    int quantity
+    json spec
+    datetime created_at
+  }
+  LOGIN_DEVICE {
+    bigint id PK
+    bigint user_id FK
+    varchar device_fingerprint UK
+    varchar device_name
+    varchar ip
+    varchar user_agent
+    datetime last_login_at
+  }
+  USER_BANK_CARD {
+    bigint id PK
+    bigint user_id FK
+    varchar card_no
+    varchar bank_name
+    varchar holder_name
+    tinyint is_default
+  }
+  USER_WALLET {
+    bigint id PK
+    bigint user_id FK
+    varchar wallet_type
+    varchar wallet_address
+    tinyint is_verified
   }
 </pre>
 </div>
@@ -10144,6 +10211,21 @@ erDiagram
     decimal base_fee
     decimal per_kg_fee
     decimal free_shipping_threshold
+  }
+  TOPIC_PRODUCT {
+    bigint id PK
+    bigint topic_id FK
+    bigint product_id FK
+    int sort_order
+  }
+  PRODUCT_SPEC {
+    bigint id PK
+    bigint product_id FK
+    varchar spec_name
+    varchar spec_value
+    decimal price
+    int stock
+    varchar sku
   }
 </pre>
 </div>
@@ -12722,6 +12804,737 @@ journey
     查看余额明细: 4: User
     查看积分变动: 4: User
     查看订单状态: 5: User
+</pre>
+</div>
+</section>
+
+<!-- Chapter 29: TypeScript DTO 类型定义 -->
+<section id="ch29">
+<h2>29. TypeScript DTO 类型定义</h2>
+<p>以下为前端AI编程直接使用的TypeScript类型声明，覆盖核心API的请求/响应DTO。</p>
+
+<h3>29.1 通用类型</h3>
+<div class="card">
+<pre class="code-block">
+// 通用API响应
+interface ApiResponse&lt;T = any&gt; {
+  code: number;
+  message?: string;
+  data: T;
+}
+
+// 分页响应
+interface PaginatedResponse&lt;T&gt; {
+  list: T[];
+  total: number;
+  page: number;
+  page_size: number;
+}
+
+// 分页查询参数
+interface PaginationQuery {
+  page?: number;
+  page_size?: number;
+  keyword?: string;
+}
+
+// 通用ID参数
+interface IdParam {
+  id: string | number;
+}
+</pre>
+</div>
+
+<h3>29.2 认证DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface LoginRequest {
+  account: string;        // 邮箱或手机号
+  password: string;
+  captcha_id?: string;
+  captcha_code?: string;
+  device_fingerprint?: string;
+}
+
+interface LoginResponse {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  user: UserInfo;
+  requires_2fa: boolean;
+  temp_token?: string;
+}
+
+interface TwoFARequest {
+  temp_token: string;
+  code: string;
+}
+
+interface SocialLoginRequest {
+  provider: 'google' | 'facebook' | 'telegram' | 'vk';
+  access_token: string;
+  device_fingerprint?: string;
+}
+
+interface SocialLoginResponse extends LoginResponse {
+  is_new_user: boolean;
+}
+
+interface RegisterRequest {
+  email: string;
+  password: string;
+  confirm_password: string;
+  invite_code?: string;
+  phone?: string;
+  nickname?: string;
+  captcha_id: string;
+  captcha_code: string;
+}
+
+interface ForgotPasswordRequest {
+  account: string;
+  type: 'email' | 'sms';
+}
+
+interface ResetPasswordRequest {
+  reset_token: string;
+  new_password: string;
+  code: string;
+}
+
+interface UserInfo {
+  id: number;
+  email: string;
+  phone: string;
+  nickname: string;
+  avatar: string;
+  role: 'member' | 'distributor' | 'admin';
+  member_level: number;
+  is_distributor: boolean;
+  invite_code: string;
+  inviter_id: number | null;
+  status: number;
+  balance: number;
+  points: number;
+}
+</pre>
+</div>
+
+<h3>29.3 订单DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface CreateOrderRequest {
+  items: CartItem[];
+  address_id: number;
+  coupon_id?: number;
+  remark?: string;
+}
+
+interface CartItem {
+  product_id: number;
+  quantity: number;
+  spec?: string;
+}
+
+interface CreateOrderResponse {
+  order_no: string;
+  payable_amount: number;
+  payment_url: string;
+  expires_at: string;
+}
+
+interface OrderInfo {
+  id: number;
+  order_no: string;
+  user_id: number;
+  total_amount: number;
+  shipping_fee: number;
+  discount_amount: number;
+  payable_amount: number;
+  status: OrderStatus;
+  coupon_id: number | null;
+  address_snapshot: string;
+  items: OrderItem[];
+  paid_at: string | null;
+  shipped_at: string | null;
+  confirmed_at: string | null;
+  created_at: string;
+}
+
+interface OrderItem {
+  id: number;
+  order_id: number;
+  product_id: number;
+  product_name: string;
+  product_image: string;
+  product_snapshot: string;
+  quantity: number;
+  unit_price: number;
+  subtotal: number;
+}
+
+type OrderStatus = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+// 1=待支付 2=已支付/待发货 3=已发货 4=已签收 5=已取消 6=退款中 7=已退款 8=已关闭
+
+interface OrderListQuery extends PaginationQuery {
+  status?: OrderStatus;
+  start_date?: string;
+  end_date?: string;
+}
+
+interface ShipRequest {
+  order_no: string;
+  logistics_company: string;
+  logistics_no: string;
+  weight?: number;
+  shipping_fee?: number;
+}
+</pre>
+</div>
+
+<h3>29.4 商品DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface ProductInfo {
+  id: number;
+  name: string;
+  description: string;
+  main_image: string;
+  images: string[];
+  price: number;
+  original_price: number | null;
+  stock: number;
+  sales: number;
+  category_id: number;
+  shipping_template_id: number | null;
+  specs: ProductSpec[];
+  status: ProductStatus;
+}
+
+interface ProductSpec {
+  name: string;
+  values: string[];
+}
+
+interface ProductListQuery extends PaginationQuery {
+  category_id?: number;
+  status?: ProductStatus;
+  min_price?: number;
+  max_price?: number;
+}
+
+type ProductStatus = 1 | 2 | 3;
+// 1=上架 2=下架 3=缺货
+
+interface CreateProductRequest {
+  name: string;
+  description: string;
+  main_image: string;
+  images: string[];
+  price: number;
+  original_price?: number;
+  stock: number;
+  category_id: number;
+  shipping_template_id?: number;
+  specs?: ProductSpec[];
+  status: ProductStatus;
+}
+
+interface UpdateProductRequest {
+  name?: string;
+  description?: string;
+  main_image?: string;
+  images?: string[];
+  price?: number;
+  original_price?: number;
+  stock?: number;
+  category_id?: number;
+  shipping_template_id?: number;
+  specs?: ProductSpec[];
+  status?: ProductStatus;
+}
+
+interface Category {
+  id: number;
+  name: string;
+  parent_id: number;
+  sort_order: number;
+  icon: string | null;
+  children?: Category[];
+}
+</pre>
+</div>
+
+<h3>29.5 分销与佣金DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface DistributorInfo {
+  id: number;
+  user_id: number;
+  distributor_code: string;
+  inviter_id: number | null;
+  total_commission: number;
+  pending_commission: number;
+  withdrawn_amount: number;
+  available_balance: number;
+  status: DistributorStatus;
+  created_at: string;
+}
+
+type DistributorStatus = 0 | 1 | 2 | 3;
+// 0=待审核 1=已通过 2=已拒绝 3=已冻结
+
+interface CommissionInfo {
+  id: number;
+  distributor_id: number;
+  order_id: number;
+  order_no: string;
+  amount: number;
+  rate: number;
+  status: CommissionStatus;
+  source_type: string;
+  created_at: string;
+}
+
+type CommissionStatus = 0 | 1 | 2 | 3;
+// 0=待结算 1=已结算 2=已取消 3=已提现
+
+interface WithdrawalRequest {
+  amount: number;
+  channel: 'bank' | 'wallet';
+  bank_card_id?: number;
+  wallet_address?: string;
+  pay_password: string;
+}
+
+interface WithdrawalInfo {
+  id: string;
+  distributor_id: number;
+  distributor_name: string;
+  amount: number;
+  fee: number;
+  actual_amount: number;
+  channel: 'bank' | 'wallet';
+  bank_card_no: string | null;
+  status: WithdrawalStatus;
+  reject_reason: string | null;
+  created_at: string;
+  reviewed_at: string | null;
+}
+
+type WithdrawalStatus = 0 | 1 | 2 | 3 | 4;
+// 0=待审核 1=审核通过 2=已打款 3=驳回 4=已取消
+
+interface AllianceDashboard {
+  summary: {
+    total_commission: number;
+    pending_commission: number;
+    withdrawn_amount: number;
+    available_balance: number;
+    team_size: number;
+    active_members: number;
+  };
+  trend: TrendItem[];
+  rank: number;
+  rank_change: number;
+}
+
+interface TrendItem {
+  date: string;
+  commission: number;
+  orders: number;
+}
+</pre>
+</div>
+
+<h3>29.6 抽奖DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface LotteryActivity {
+  id: number;
+  name: string;
+  type: LotteryType;
+  start_time: string;
+  end_time: string;
+  cost_points: number;
+  daily_limit: number;
+  status: ActivityStatus;
+  prizes: LotteryPrize[];
+}
+
+type LotteryType = 1 | 2 | 3;
+// 1=积分抽奖 2=消费抽奖 3=每日免费
+
+type ActivityStatus = 0 | 1 | 2;
+// 0=未开始 1=进行中 2=已结束
+
+interface LotteryPrize {
+  id: number;
+  activity_id: number;
+  name: string;
+  type: PrizeType;
+  value: string;
+  weight: number;
+  count: number;
+  image: string | null;
+}
+
+type PrizeType = 1 | 2 | 3 | 4;
+// 1=实物 2=优惠券 3=积分 4=谢谢参与
+
+interface DrawRequest {
+  activity_id: number;
+}
+
+interface DrawResponse {
+  prize_id: number;
+  prize_name: string;
+  prize_type: PrizeType;
+  prize_value: string;
+  image: string | null;
+  remaining_points: number;
+}
+
+interface LotteryRecord {
+  id: number;
+  user_id: number;
+  activity_id: number;
+  prize_id: number;
+  prize_name: string;
+  prize_type: PrizeType;
+  status: number;
+  courier_no: string | null;
+  created_at: string;
+}
+</pre>
+</div>
+
+<h3>29.7 优惠券DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface CouponTemplate {
+  id: number;
+  name: string;
+  type: CouponType;
+  discount_value: number;
+  min_amount: number;
+  total_count: number;
+  issued_count: number;
+  start_time: string;
+  end_time: string;
+  expire_type: ExpireType;
+  expire_days: number | null;
+  status: number;
+}
+
+type CouponType = 1 | 2 | 3;
+// 1=满减 2=折扣 3=无门槛
+
+type ExpireType = 1 | 2;
+// 1=固定过期 2=领取后N天过期
+
+interface Coupon {
+  id: number;
+  user_id: number;
+  template_id: number;
+  template: CouponTemplate;
+  status: CouponStatus;
+  used_at: string | null;
+  expire_at: string;
+  created_at: string;
+}
+
+type CouponStatus = 0 | 1 | 2;
+// 0=未使用 1=已使用 2=已过期
+
+interface CreateCouponRequest {
+  name: string;
+  type: CouponType;
+  discount_value: number;
+  min_amount: number;
+  total_count: number;
+  per_user_limit: number;
+  start_time: string;
+  end_time: string;
+  expire_type: ExpireType;
+  expire_days?: number;
+}
+</pre>
+</div>
+
+<h3>29.8 后台管理DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface AdminInfo {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+  status: number;
+  last_login_at: string | null;
+}
+
+interface MemberListQuery extends PaginationQuery {
+  level?: number;
+  status?: number;
+}
+
+interface MemberInfo {
+  id: number;
+  email: string;
+  phone: string;
+  nickname: string;
+  avatar: string;
+  level: number;
+  level_name: string;
+  points: number;
+  balance: number;
+  order_count: number;
+  total_spent: number;
+  status: number;
+  created_at: string;
+  last_login_at: string | null;
+}
+
+interface UpdateMemberLevelRequest {
+  level_id: number;
+  reason: string;
+}
+
+interface WithdrawalAuditQuery extends PaginationQuery {
+  status?: WithdrawalStatus;
+  start_date?: string;
+  end_date?: string;
+}
+
+interface ApproveWithdrawalRequest {
+  remark: string;
+}
+
+interface RejectWithdrawalRequest {
+  reject_reason: string;
+}
+
+interface Banner {
+  id: number;
+  title: string;
+  image: string;
+  link_type: number;
+  link_value: string;
+  position: number;
+  sort_order: number;
+  start_time: string;
+  end_time: string;
+  status: number;
+}
+
+interface CreateBannerRequest {
+  title: string;
+  image: string;
+  link_type: 1 | 2 | 3 | 4;
+  link_value: string;
+  position: 1 | 2 | 3;
+  sort_order: number;
+  start_time: string;
+  end_time: string;
+  status: number;
+}
+
+interface AuditLog {
+  id: number;
+  admin_id: number;
+  admin_name: string;
+  action: string;
+  resource: string;
+  resource_id: string;
+  old_value: Record&lt;string, any&gt;;
+  new_value: Record&lt;string, any&gt;;
+  ip: string;
+  user_agent: string;
+  created_at: string;
+}
+
+interface BlacklistRequest {
+  target_type: 1 | 2 | 3;
+  target_value: string;
+  reason: string;
+  duration: number;
+}
+
+interface SystemSettings {
+  site_name: string;
+  site_logo: string;
+  icp: string;
+  currency: string;
+  language: string;
+  timezone: string;
+  commission_rate_range: { min: number; max: number };
+  withdrawal: {
+    min_amount: number;
+    fee_rate: number;
+    auto_approve: boolean;
+    bank_only: boolean;
+  };
+  sms_gateway: {
+    provider: string;
+    daily_limit: number;
+    enabled: boolean;
+  };
+  maintenance: {
+    enabled: boolean;
+    message: string;
+  };
+}
+
+interface AdminDashboard {
+  today: { order_count: number; order_amount: number; new_users: number; withdrawal_pending: number };
+  week: { order_count: number; order_amount: number; new_users: number };
+  month: { order_count: number; order_amount: number; new_users: number };
+  alerts: { type: string; count: number; message: string }[];
+}
+</pre>
+</div>
+
+<h3>29.9 购物车与通知DTO</h3>
+<div class="card">
+<pre class="code-block">
+interface AddToCartRequest {
+  product_id: number;
+  quantity: number;
+  spec?: string;
+}
+
+interface CartItemResponse {
+  id: number;
+  product_id: number;
+  product_name: string;
+  product_image: string;
+  product_price: number;
+  quantity: number;
+  spec: string | null;
+  stock: number;
+  selected: boolean;
+}
+
+interface RechargeRequest {
+  amount: number;
+  channel: 'alipay' | 'wechat';
+  return_url: string;
+}
+
+interface RechargeResponse {
+  order_id: string;
+  pay_url: string;
+  amount: number;
+}
+
+interface Notification {
+  id: string;
+  type: 'order' | 'commission' | 'system' | 'lottery';
+  title: string;
+  content: string;
+  is_read: boolean;
+  extra: Record&lt;string, any&gt;;
+  created_at: string;
+}
+
+interface NotificationListResponse {
+  list: Notification[];
+  total: number;
+  unread_count: number;
+}
+</pre>
+</div>
+
+<h3>29.10 枚举类型汇总</h3>
+<div class="card">
+<pre class="code-block">
+// 订单状态枚举
+enum OrderStatusEnum {
+  PendingPayment = 1,    // 待支付
+  Paid = 2,             // 已支付/待发货
+  Shipped = 3,          // 已发货
+  Confirmed = 4,        // 已签收
+  Cancelled = 5,        // 已取消
+  Refunding = 6,        // 退款中
+  Refunded = 7,         // 已退款
+  Closed = 8,           // 已关闭
+}
+
+// 商品状态枚举
+enum ProductStatusEnum {
+  OnSale = 1,           // 上架
+  OffShelf = 2,         // 下架
+  OutOfStock = 3,       // 缺货
+}
+
+// 分销商状态枚举
+enum DistributorStatusEnum {
+  Pending = 0,          // 待审核
+  Approved = 1,         // 已通过
+  Rejected = 2,         // 已拒绝
+  Frozen = 3,           // 已冻结
+}
+
+// 佣金状态枚举
+enum CommissionStatusEnum {
+  Pending = 0,          // 待结算
+  Settled = 1,           // 已结算
+  Cancelled = 2,         // 已取消
+  Withdrawn = 3,        // 已提现
+}
+
+// 提现状态枚举
+enum WithdrawalStatusEnum {
+  PendingReview = 0,    // 待审核
+  Approved = 1,         // 审核通过
+  Paid = 2,             // 已打款
+  Rejected = 3,         // 驳回
+  Cancelled = 4,        // 已取消
+}
+
+// 优惠券类型枚举
+enum CouponTypeEnum {
+  FullReduction = 1,    // 满减
+  Discount = 2,         // 折扣
+  NoThreshold = 3,      // 无门槛
+}
+
+// 优惠券状态枚举
+enum CouponStatusEnum {
+  Unused = 0,           // 未使用
+  Used = 1,             // 已使用
+  Expired = 2,          // 已过期
+}
+
+// 抽奖类型枚举
+enum LotteryTypeEnum {
+  PointsDraw = 1,       // 积分抽奖
+  PurchaseDraw = 2,     // 消费抽奖
+  DailyFree = 3,        // 每日免费
+}
+
+// 活动状态枚举
+enum ActivityStatusEnum {
+  NotStarted = 0,       // 未开始
+  InProgress = 1,        // 进行中
+  Ended = 2,            // 已结束
+}
+
+// 奖品类型枚举
+enum PrizeTypeEnum {
+  Physical = 1,         // 实物
+  Coupon = 2,           // 优惠券
+  Points = 3,           // 积分
+  Thanks = 4,           // 谢谢参与
+}
+
+// 用户角色枚举
+enum UserRoleEnum {
+  Member = 'member',
+  Distributor = 'distributor',
+  Admin = 'admin',
+}
 </pre>
 </div>
 </section>
