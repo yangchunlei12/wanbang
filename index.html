@@ -5148,7 +5148,7 @@ flowchart TB
 
 <h3 id="ch7-21">7.21 外部系统接口配置</h3>
 <h4>功能说明</h4>
-<p>后台外部系统接口配置管理模块。D7 系统需对接多个外部系统（VK OAuth/Telegram Bot/OK OAuth/PayPal 支付/ЮMoney 支付/QIWI 支付/СберБанк 收单/SMS.ru 短信/SMSAero 备用短信/Email Service 邮件服务(Mailgun/SendGrid)/CDEK 物流/Почта России 物流等），各外部系统的 API 字段名称、数据结构、请求格式各不相同。本模块提供可视化的字段映射配置界面，管理员可定义 D7 内部字段与外部系统字段的映射关系（含字段名映射、数据类型转换、值转换规则、默认值设置、必填校验），系统在调用外部 API 时根据映射配置自动转换请求/响应数据，无需修改代码即可适配新外部系统或字段变更。支持连通性测试、调用日志查看、映射模板导入导出。邮箱服务支持俄罗斯主流邮箱（mail.ru/bk.ru/list.ru/yandex.ru）和谷歌邮箱（gmail.com），用于发送验证码邮件和系统通知邮件。</p>
+<p>后台外部系统接口配置管理模块。D7 系统需对接多个外部系统（VK OAuth/Telegram Bot/OK OAuth/PayPal 支付/ЮMoney 支付/QIWI 支付/СберБанк 收单/SMS.ru 短信/SMSAero 备用短信/Email Service 邮件服务(Mailgun/SendGrid)/CDEK 物流/Почта России 物流/Google 翻译API等），各外部系统的 API 字段名称、数据结构、请求格式各不相同。本模块提供可视化的字段映射配置界面，管理员可定义 D7 内部字段与外部系统字段的映射关系（含字段名映射、数据类型转换、值转换规则、默认值设置、必填校验），系统在调用外部 API 时根据映射配置自动转换请求/响应数据，无需修改代码即可适配新外部系统或字段变更。支持连通性测试、调用日志查看、映射模板导入导出。邮箱服务支持俄罗斯主流邮箱（mail.ru/bk.ru/list.ru/yandex.ru）和谷歌邮箱（gmail.com），用于发送验证码邮件和系统通知邮件。<strong>Google 翻译API</strong>用于系统多语言翻译，支持商品名称/描述/专题内容/通知消息等文本的自动翻译，管理员可配置源语言→目标语言的映射规则，系统在保存内容时自动调用 Google Translation API 生成对应语言版本，无需人工翻译。</p>
 <h4>页面布局 — 外部系统配置列表页</h4>
 <div class="card">
 <pre>
@@ -5170,8 +5170,9 @@ flowchart TB
 │  010   SMSAero 备用   短信       https://smsaero.com/api    2      禁用    [配置][端点][测试][日志] │
 │  011   Почта России   物流       https://tracking.russianpost.ru 3 禁用  [配置][端点][测试][日志] │
 │  012   Email Service  邮件       https://api.mailgun.net      8      启用    [配置][端点][测试][日志] │
+│  013   Google翻译    翻译       https://translation.googleapis.com 6  启用  [配置][端点][测试][日志] │
 ├─────────────────────────────────────────────────────────────────────────────────────┤
-│                                            共12条 第1/1页 [上一页][下一页] │
+│                                            共13条 第1/1页 [上一页][下一页] │
 └─────────────────────────────────────────────────────────────────────────────┘
 </pre>
 </div>
@@ -5388,6 +5389,93 @@ flowchart TB
 </table>
 </div>
 <callout class="callout">外部系统接口配置核心机制：① 管理员配置 D7↔外部系统的字段映射关系（系统级+端点级+请求映射+响应映射+错误码映射），② 保存后写入 Redis 实时生效，③ 外部 API 调用时由映射引擎自动转换请求/响应数据，④ 支持直传/值映射/类型转换/函数转换/拼接/计算六种转换类型，⑤ 连通性测试验证映射正确性，⑥ 调用日志记录原始+映射前后数据供排查。无需修改代码即可适配新外部系统或字段变更。</callout>
+
+<h4>Google翻译API — 字段映射配置</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>映射类型</th><th>D7内部字段</th><th>转换方式</th><th>Google API字段</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>请求映射</td><td>text</td><td>direct</td><td>q</td><td>String</td><td>是</td><td>待翻译文本，可传数组批量翻译</td></tr>
+<tr><td>请求映射</td><td>sourceLang</td><td>value_map</td><td>source</td><td>String</td><td>是</td><td>源语言: ru→ru, zh→zh, en→en</td></tr>
+<tr><td>请求映射</td><td>targetLang</td><td>value_map</td><td>target</td><td>String</td><td>是</td><td>目标语言: ru→ru, zh→zh, en→en</td></tr>
+<tr><td>请求映射</td><td>format</td><td>direct</td><td>format</td><td>String</td><td>否</td><td>默认text, HTML内容传html</td></tr>
+<tr><td>请求映射</td><td>apiKey</td><td>direct</td><td>key</td><td>String</td><td>是</td><td>从系统设置读取, 不暴露给前端</td></tr>
+<tr><td>响应映射</td><td>translatedText</td><td>direct</td><td>$.data.translations[0].translatedText</td><td>String</td><td>—</td><td>翻译结果文本</td></tr>
+<tr><td>响应映射</td><td>detectedSourceLang</td><td>direct</td><td>$.data.translations[0].detectedSourceLanguage</td><td>String</td><td>—</td><td>自动检测的源语言(未指定source时)</td></tr>
+<tr><td>错误映射</td><td>400InvalidAPIKey</td><td>—</td><td>Google: 400</td><td>—</td><td>—</td><td>映射为D7错误码40206 "翻译服务密钥无效"</td></tr>
+<tr><td>错误映射</td><td>403DailyLimitExceeded</td><td>—</td><td>Google: 403</td><td>—</td><td>—</td><td>映射为D7错误码40207 "翻译额度用尽"</td></tr>
+<tr><td>错误映射</td><td>429TooManyRequests</td><td>—</td><td>Google: 429</td><td>—</td><td>—</td><td>映射为D7错误码40208 "翻译请求频率超限"</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Google翻译API — 接口列表</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>功能</th><th>路径</th><th>方法</th><th>请求参数</th><th>响应格式</th></tr></thead>
+<tbody>
+<tr><td>单条翻译</td><td>/api/v1/admin/translate</td><td><span class="badge-tag badge-post">POST</span></td><td>{"text":"商品名称","sourceLang":"zh","targetLang":"ru","format?":"text"}</td><td>{"translatedText":"Название товара","detectedSourceLang":"zh","charCount":4}</td></tr>
+<tr><td>批量翻译</td><td>/api/v1/admin/translate/batch</td><td><span class="badge-tag badge-post">POST</span></td><td>{"items":["文本1","文本2"],"sourceLang":"zh","targetLang":"ru"}</td><td>{"results":[{"translatedText":"Перевод1","detectedSourceLang":"zh"}]}</td></tr>
+<tr><td>内容自动翻译</td><td>/api/v1/admin/translate/auto</td><td><span class="badge-tag badge-post">POST</span></td><td>{"module":"product","entityId":1,"fields":["name","description"],"targetLangs":["ru","en"]}</td><td>{"translated":2,"cached":0,"failed":0,"details":[{"field":"name","ru":"Товар","en":"Product"}]}</td></tr>
+<tr><td>翻译缓存查询</td><td>/api/v1/admin/translate/cache</td><td><span class="badge-tag badge-get">GET</span></td><td>sourceLang,targetLang,textHash</td><td>{"cached":true,"translatedText":"Товар","cachedAt":"2026-01-01T00:00:00Z"}</td></tr>
+<tr><td>清空翻译缓存</td><td>/api/v1/admin/translate/cache</td><td><span class="badge-tag badge-delete">DELETE</span></td><td>{"scope":"all"|"module"|"key", "module?":"product"}</td><td>{"cleared":152,"success":true}</td></tr>
+<tr><td>翻译配置获取</td><td>/api/v1/admin/translate/config</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{"apiKey":"***masked***","enabled":true,"defaultSourceLang":"zh","autoTranslateModules":["product","topic","banner"],"rateLimitPerMin":600,"cacheTTL":86400}</td></tr>
+<tr><td>翻译配置更新</td><td>/api/v1/admin/translate/config</td><td><span class="badge-tag badge-put">PUT</span></td><td>{"apiKey":"AIza...","enabled":true,"defaultSourceLang":"zh","autoTranslateModules":["product","topic","banner","notification"],"rateLimitPerMin":600,"cacheTTL":86400}</td><td>{"success":true}</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Google翻译API — 调用流程</h4>
+<div class="card">
+<pre class="mermaid">
+sequenceDiagram
+  participant A as 管理员
+  participant API as D7后端
+  participant Redis as Redis缓存
+  participant Google as Google Translate API
+  participant DB as 数据库
+
+  A->>API: POST /admin/translate/auto {module:"product", entityId:1, fields:["name","description"], targetLangs:["ru","en"]}
+  API->>Redis: GET translate:cache:{textHash}:{sourceLang}:{targetLang}
+  alt 缓存命中
+    Redis-->>API: 返回缓存翻译
+  else 缓存未命中
+    API->>Google: POST https://translation.googleapis.com/language/translate/v2 {q:"商品名称", source:"zh", target:"ru", key:"AIza..."}
+    Google-->>API: {data:{translations:[{translatedText:"Товар", detectedSourceLanguage:"zh"}]}}
+    API->>Redis: SET translate:cache:{hash}:zh:ru "Товар" TTL 86400
+  end
+  API->>DB: UPDATE product_i18n SET name_ru='Товар', name_en='Product' WHERE product_id=1
+  API-->>A: {translated:2, cached:0, failed:0, details:[...]}
+</pre>
+</div>
+
+<h4>Google翻译API — 数据表设计</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>表名</th><th>用途</th><th>核心字段</th></tr></thead>
+<tbody>
+<tr><td>translation_cache</td><td>翻译结果缓存(Redis+DB双写)</td><td>id, text_hash, source_lang, target_lang, translated_text, module, entity_id, created_at, expires_at</td></tr>
+<tr><td>product_i18n</td><td>商品多语言内容</td><td>product_id, lang, name, description, short_desc, updated_at</td></tr>
+<tr><td>topic_i18n</td><td>专题多语言内容</td><td>topic_id, lang, title, content, updated_at</td></tr>
+<tr><td>notification_i18n</td><td>通知消息多语言模板</td><td>notification_id, lang, title, content, updated_at</td></tr>
+<tr><td>banner_i18n</td><td>轮播图多语言内容</td><td>banner_id, lang, title, subtitle, link_text, updated_at</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Google翻译API — 自动翻译触发场景</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>场景</th><th>触发方式</th><th>翻译字段</th><th>目标语言</th></tr></thead>
+<tbody>
+<tr><td>商品创建/更新</td><td>后台保存商品时自动触发</td><td>name, description, short_desc</td><td>ru, en (源语言为zh时)</td></tr>
+<tr><td>专题创建/更新</td><td>后台保存专题时自动触发</td><td>title, content</td><td>ru, en</td></tr>
+<tr><td>轮播图创建/更新</td><td>后台保存轮播图时自动触发</td><td>title, subtitle, link_text</td><td>ru, en</td></tr>
+<tr><td>通知消息发送</td><td>后台发送通知时自动触发</td><td>title, content</td><td>用户lang字段对应语言</td></tr>
+<tr><td>手动批量翻译</td><td>管理员手动选择内容翻译</td><td>指定模块+字段</td><td>管理员选择目标语言</td></tr>
+</tbody>
+</table>
+</div>
 
 <h4>页面布局 — API端点映射总览页</h4>
 <div class="card">
@@ -7367,7 +7455,7 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <callout class="callout">高并发核心原则：网关限流防洪水、Redis 预扣防超卖、幂等键防重复、异步队列削峰填谷、熔断降级保核心。抽奖/下单/提现等关键操作必须经过 Redis 分布式锁 + 幂等校验。</callout>
 
 <h3>9.3 i18n国际化规格</h3>
-<p>系统支持三语言切换（俄语ru / 中文zh / 英语en），默认俄语。用户可在个人中心→语言设置中切换，选择后存入localStorage和user.lang字段。</p>
+<p>系统支持三语言切换（俄语ru / 中文zh / 英语en），默认俄语。用户可在个人中心→语言设置中切换，选择后存入localStorage和user.lang字段。系统对接<strong>Google Translation API</strong>实现内容自动翻译，管理员在后台外部系统接口配置中配置Google翻译API密钥和字段映射（见§7.21），商品/专题/轮播图/通知等内容保存时自动调用Google API生成多语言版本，无需人工翻译。翻译结果缓存在Redis和translation_cache表中，避免重复调用。</p>
 
 <h4>9.3.1 语言切换策略</h4>
 <div class="table-wrap">
@@ -8996,6 +9084,13 @@ Body: { <span class="key">"access_token"</span>: <span class="str">"vk1_token_xx
 <tr><td>更新自动封禁规则</td><td>/api/v1/admin/blacklist/rules</td><td><span class="badge-tag badge-put">PUT</span></td><td>JSON Body</td><td>{code,message}</td></tr>
 <tr><td>风险设备列表</td><td>/api/v1/admin/blacklist/risk-devices</td><td><span class="badge-tag badge-">GET</span></td><td>page,page_size(query)</td><td>{code,data:{list[],total}}</td></tr>
 <tr><td>审核申诉</td><td>/api/v1/admin/blacklist/appeals/{id}/review</td><td><span class="badge-tag badge-">POST</span></td><td>JSON Body</td><td>{code,message,data:{id}}</td></tr>
+<tr><td>单条翻译</td><td>/api/v1/admin/translate</td><td><span class="badge-tag badge-post">POST</span></td><td>{text,sourceLang,targetLang,format?}</td><td>{code,data:{translatedText,detectedSourceLang,charCount}}</td></tr>
+<tr><td>批量翻译</td><td>/api/v1/admin/translate/batch</td><td><span class="badge-tag badge-post">POST</span></td><td>{items[],sourceLang,targetLang}</td><td>{code,data:{results[]}}</td></tr>
+<tr><td>内容自动翻译</td><td>/api/v1/admin/translate/auto</td><td><span class="badge-tag badge-post">POST</span></td><td>{module,entityId,fields[],targetLangs[]}</td><td>{code,data:{translated,cached,failed,details[]}}</td></tr>
+<tr><td>翻译缓存查询</td><td>/api/v1/admin/translate/cache</td><td><span class="badge-tag badge-get">GET</span></td><td>sourceLang,targetLang,textHash</td><td>{code,data:{cached,translatedText,cachedAt}}</td></tr>
+<tr><td>清空翻译缓存</td><td>/api/v1/admin/translate/cache</td><td><span class="badge-tag badge-delete">DELETE</span></td><td>{scope,module?}</td><td>{code,data:{cleared,success}}</td></tr>
+<tr><td>翻译配置获取</td><td>/api/v1/admin/translate/config</td><td><span class="badge-tag badge-get">GET</span></td><td>—</td><td>{code,data:{apiKey,enabled,defaultSourceLang,autoTranslateModules[],rateLimitPerMin,cacheTTL}}</td></tr>
+<tr><td>翻译配置更新</td><td>/api/v1/admin/translate/config</td><td><span class="badge-tag badge-put">PUT</span></td><td>{apiKey,enabled,defaultSourceLang,autoTranslateModules[],rateLimitPerMin,cacheTTL}</td><td>{code,message}</td></tr>
 </tbody>
 </table>
 </div>
@@ -9456,6 +9551,10 @@ sequenceDiagram
 <tr><td>版本历史</td><td>/admin/external-systems/:id/versions</td><td>GET /admin/external-systems/{id}/versions</td></tr>
 <tr><td>导入映射模板</td><td>/admin/external-systems/import</td><td>POST /admin/external-systems/import</td></tr>
 <tr><td>预置模板</td><td>/admin/external-systems/templates</td><td>GET /admin/external-systems/templates</td></tr>
+<tr><td>翻译管理</td><td>/admin/translate</td><td>POST /admin/translate, POST /admin/translate/batch</td></tr>
+<tr><td>自动翻译</td><td>/admin/translate/auto</td><td>POST /admin/translate/auto</td></tr>
+<tr><td>翻译配置</td><td>/admin/translate/config</td><td>GET/PUT /admin/translate/config</td></tr>
+<tr><td>翻译缓存</td><td>/admin/translate/cache</td><td>GET/DELETE /admin/translate/cache</td></tr>
 <tr><td>端点映射总览</td><td>/admin/external-systems/endpoints</td><td>GET /admin/external-systems/endpoints-overview</td></tr>
 <tr><td>端点列表(按系统)</td><td>/admin/external-systems/:id/endpoints</td><td>GET /admin/external-systems/{id}/endpoints</td></tr>
 <tr><td>端点字段映射详情</td><td>/admin/external-systems/:id/endpoints/:epId/mappings</td><td>GET/PUT /admin/external-systems/{id}/endpoints/{epId}/mappings</td></tr>
@@ -9703,6 +9802,9 @@ router.afterEach((to) => {
 <tr><td>50003</td><td>Redis异常(连接失败/操作超时)</td><td>500</td></tr>
 <tr><td>50004</td><td>消息队列异常(发送/消费失败)</td><td>500</td></tr>
 <tr><td>50005</td><td>外部服务异常(第三方API不可用)</td><td>502</td></tr>
+<tr><td>40206</td><td>翻译服务密钥无效(Google API Key错误或过期)</td><td>403</td></tr>
+<tr><td>40207</td><td>翻译额度用尽(Google API每日配额耗尽)</td><td>429</td></tr>
+<tr><td>40208</td><td>翻译请求频率超限(Google API QPS超限)</td><td>429</td></tr>
 <tr><td>50301</td><td>服务降级中(熔断触发)</td><td>503</td></tr>
 </tbody>
 </table>
@@ -9737,6 +9839,9 @@ router.afterEach((to) => {
 <tr><td>50003</td><td>Redis异常</td><td>静默降级(数据从DB获取),不提示用户</td><td>Redis不可用时降级到DB查询,记录warn_log,不影响主流程</td></tr>
 <tr><td>50004</td><td>消息队列异常</td><td>静默降级(同步处理),不提示用户</td><td>MQ不可用时降级为同步执行,记录warn_log,补偿任务定时重推</td></tr>
 <tr><td>50005</td><td>外部服务异常</td><td>Toast提示"第三方服务暂不可用"</td><td>熔断器半开状态,5秒超时,失败3次触发熔断,30秒后半开探测</td></tr>
+<tr><td>40206</td><td>翻译服务密钥无效</td><td>Toast提示"翻译服务配置异常",后台管理页标红API Key配置项</td><td>检查external_system表中Google翻译的auth.credentials.apiKey是否为空或过期,提示管理员重新配置</td></tr>
+<tr><td>40207</td><td>翻译额度用尽</td><td>Toast提示"今日翻译额度已用完",降级为显示原文</td><td>记录日志,切换为缓存优先模式(仅使用已有翻译缓存),次日00:01自动恢复,通知管理员升级配额</td></tr>
+<tr><td>40208</td><td>翻译请求频率超限</td><td>静默降级,不提示用户</td><td>自动加入1秒延迟重试队列,连续3次429后熔断5分钟,期间使用缓存或原文</td></tr>
 <tr><td>50301</td><td>服务降级中(熔断触发)</td><td>Toast提示"系统维护中,请稍后再试",禁用操作</td><td>熔断器Open状态,直接拒绝,30秒后半开探测,成功则Closed</td></tr>
 </tbody>
 </table>
@@ -14755,6 +14860,53 @@ interface NotificationListResponse {
   list: Notification[];
   total: number;
   unread_count: number;
+}
+
+// ─── 翻译相关DTO ───
+interface TranslateRequest {
+  text: string;
+  sourceLang: 'ru' | 'zh' | 'en';
+  targetLang: 'ru' | 'zh' | 'en';
+  format?: 'text' | 'html';
+}
+
+interface TranslateResponse {
+  translatedText: string;
+  detectedSourceLang: string;
+  charCount: number;
+}
+
+interface BatchTranslateRequest {
+  items: string[];
+  sourceLang: 'ru' | 'zh' | 'en';
+  targetLang: 'ru' | 'zh' | 'en';
+}
+
+interface BatchTranslateResponse {
+  results: Array<{ translatedText: string; detectedSourceLang: string }>;
+}
+
+interface AutoTranslateRequest {
+  module: 'product' | 'topic' | 'banner' | 'notification';
+  entityId: number;
+  fields: string[];
+  targetLangs: Array<'ru' | 'zh' | 'en'>;
+}
+
+interface AutoTranslateResponse {
+  translated: number;
+  cached: number;
+  failed: number;
+  details: Array<Record<string, string>>;
+}
+
+interface TranslateConfig {
+  apiKey: string;
+  enabled: boolean;
+  defaultSourceLang: 'ru' | 'zh' | 'en';
+  autoTranslateModules: Array<'product' | 'topic' | 'banner' | 'notification'>;
+  rateLimitPerMin: number;
+  cacheTTL: number;
 }
 </pre>
 </div>
